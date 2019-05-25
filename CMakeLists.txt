@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-Werror -O3 -march=native")
 
 set(APP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/app)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(GL_LIBS "-lglut -lGLEW -lGLU")
 
@@ -27,10 +28,12 @@ set_target_properties(viewer PROPERTIES CXX_STANDARD 17)
 
 
 # Narcisse library
-add_library(narcisse INTERFACE)
-target_sources(narcisse
-               INTERFACE ${INCLUDE_DIR}/narcisse/narcisse.hh)
-target_include_directories(narcisse INTERFACE ${INCLUDE_DIR})
+add_library(pogl STATIC)
+target_sources(pogl
+               INTERFACE ${INCLUDE_DIR}/pogl/pogl.hh
+               PRIVATE ${SOURCE_DIR}/pogl/program.cc)
+target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
+target_link_libraries(pogl ${GL_LIBS} stdc++fs)
 
 
 # Shader compiler
@@ -38,4 +41,4 @@ add_executable(compiler)
 target_sources(compiler
                PRIVATE ${APP_SOURCE_DIR}/compiler.cc)
 set_target_properties(compiler PROPERTIES CXX_STANDARD 17)
-target_link_libraries(compiler spdlog::spdlog narcisse ${GL_LIBS} CLI11::CLI11 stdc++fs)
+target_link_libraries(compiler spdlog::spdlog pogl ${GL_LIBS} CLI11::CLI11 stdc++fs)
