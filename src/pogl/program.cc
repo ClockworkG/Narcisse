@@ -78,14 +78,14 @@ namespace pogl
                        GL_PROGRAM_BINARY_LENGTH,
                        &program_len);
 
-        std::vector<char> buffer(program_len + BINARY_TYPE_LEN);
+        std::vector<GLubyte> buffer(program_len);
         glGetProgramBinary(program,
                            program_len,
                            &program_len,
                            reinterpret_cast<GLenum*>(buffer.data()),
-                           buffer.data() + BINARY_TYPE_LEN);
+                           buffer.data());
 
-        os.write(buffer.data(), buffer.size());
+        os.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
 
         return os;
     }
@@ -95,10 +95,7 @@ namespace pogl
         auto begin = std::istream_iterator<char>(is);
         auto end = std::istream_iterator<char>();
 
-        std::vector<char> buffer;
-        auto buffer_it = std::back_insert_iterator(buffer);
-
-        std::copy(begin, end, buffer_it);
+        std::vector<char> buffer(begin, end);
 
         glProgramBinary(program,
                         reinterpret_cast<GLenum*>(buffer.data())[0],
