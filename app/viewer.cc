@@ -14,7 +14,7 @@ int main(int argc, char** argv)
         0.0f,  0.5f,  0.0f,
         0.5f, -0.5f,  0.0f,
         -0.5f, -0.5f,  0.0f
-    });
+    }, shader);
     auto scene = pogl::get_scene();
 
     scene->add_object(std::move(obj));

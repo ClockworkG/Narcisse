@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 
 #include <pogl/vbo.hh>
+#include <pogl/program.hh>
 
 namespace pogl
 {
@@ -11,7 +12,8 @@ namespace pogl
     class Object
     {
     public:
-        Object(VBO<float>&& vertices);
+        Object(VBO<float>&& vertices,
+               program_ptr_t program = nullptr);
         ~Object();
         Object(Object&&);
         Object& operator=(Object&&);
@@ -24,5 +26,6 @@ namespace pogl
     private:
         GLuint vao_id_ = INVALID_VAO;
         VBO<float> vertices_;
+        program_ptr_t program_ = nullptr;
     };
 } // namespace pogl

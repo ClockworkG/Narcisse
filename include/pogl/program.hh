@@ -42,8 +42,10 @@ namespace pogl
         void detach_all();
     };
 
-    Program make_program(const std::filesystem::path& vertex,
-                         const std::filesystem::path& fragment);
+    using program_ptr_t = std::shared_ptr<Program>;
+
+    program_ptr_t make_program(const std::filesystem::path& vertex,
+                               const std::filesystem::path& fragment);
 
     std::ostream& operator<<(std::ostream& os, const Program& program);
     std::istream& operator>>(std::istream& is, Program& program);
