@@ -4,6 +4,8 @@
 
 namespace pogl
 {
+    constexpr static inline std::size_t BINARY_TYPE_LEN = sizeof (GLenum);
+
     Program::Program()
         : program_id_(glCreateProgram())
     {}
@@ -58,5 +60,44 @@ namespace pogl
     {
         for (const GLuint shader_id : shaders_)
             glDetachShader(program_id_, shader_id);
+
+        shaders_.clear();
+    }
+
+    std::ostream& operator<<(std::ostream& os, const Program& program)
+    {
+        int program_len = 0;
+        glGetProgramiv(program.program_id_,
+                       GL_PROGRAM_BINARY_LENGTH,
+                       &program_len);
+
+        std::vector<char> buffer(program_len + BINARY_TYPE_LEN);
+        glGetProgramBinary(program.program_id_,
+                           program_len,
+                           &program_len,
+                           reinterpret_cast<GLenum*>(buffer.data()),
+                           buffer.data() + BINARY_TYPE_LEN);
+
+        os.write(buffer.data(), buffer.size());
+
+        return os;
+    }
+
+    std::istream& operator>>(std::istream& is, Program& program)
+    {
+        auto begin = std::istream_iterator<char>(is);
+        auto end = std::istream_iterator<char>();
+
+        std::vector<char> buffer;
+        auto buffer_it = std::back_insert_iterator(buffer);
+
+        std::copy(begin, end, buffer_it);
+
+        glProgramBinary(program.program_id_,
+                        reinterpret_cast<GLenum*>(buffer.data())[0],
+                        buffer.data() + BINARY_TYPE_LEN,
+                        buffer.size() - BINARY_TYPE_LEN);
+
+        return is;
     }
 } // namespace pogl

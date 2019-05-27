@@ -23,7 +23,7 @@ set(GL_LIBS "-lglut -lGLEW -lGLU")
 add_executable(viewer)
 target_sources(viewer
                PRIVATE ${APP_SOURCE_DIR}/viewer.cc)
-target_link_libraries(viewer spdlog::spdlog)
+target_link_libraries(viewer spdlog::spdlog pogl)
 set_target_properties(viewer PROPERTIES CXX_STANDARD 17)
 
 

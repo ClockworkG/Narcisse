@@ -1,6 +1,8 @@
 #pragma once
 
+#include <istream>
 #include <list>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -14,6 +16,9 @@ namespace pogl
 
     class Program
     {
+        friend std::ostream& operator<<(std::ostream& os, const Program&);
+        friend std::istream& operator>>(std::istream&, Program&);
+
     public:
         Program();
         ~Program();
@@ -26,6 +31,9 @@ namespace pogl
         template <GLenum ShaderType>
         Program& attach(const Shader<ShaderType>& shader);
 
+        template <GLenum ShaderType>
+        Program& operator+=(const Shader<ShaderType>& shader);
+
         bool operator()();
         std::string error() const;
 
@@ -35,6 +43,9 @@ namespace pogl
 
         void detach_all();
     };
+
+    std::ostream& operator<<(std::ostream& os, const Program& program);
+    std::istream& operator>>(std::istream& is, Program& program);
 } // namespace pogl
 
 #include <pogl/program.hxx>

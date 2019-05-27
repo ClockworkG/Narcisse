@@ -57,12 +57,6 @@ namespace pogl
     }
 
     template <GLenum ShaderType>
-    Shader<ShaderType>::operator GLuint() const noexcept
-    {
-        return shader_id_;
-    }
-
-    template <GLenum ShaderType>
     std::string Shader<ShaderType>::error() const
     {
         GLint max_length = 0;

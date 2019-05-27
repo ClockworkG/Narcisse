@@ -14,9 +14,13 @@ namespace pogl
 {
     constexpr GLuint INVALID_SHADER = 0;
 
+    class Program;
+
     template <GLenum ShaderType>
     class Shader
     {
+        friend Program;
+
         template <typename Shader>
         friend Shader make_shader(const std::string&);
 
@@ -32,7 +36,6 @@ namespace pogl
         Shader& operator=(const Shader&) = delete;
 
         operator bool() const noexcept;
-        operator GLuint() const noexcept;
 
         std::string error() const;
 

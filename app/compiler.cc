@@ -19,7 +19,7 @@ pogl::shader_t compile_shader(const fs::path& filename, pogl::Program& program)
     if (!shader)
         throw std::runtime_error{shader.error()};
 
-    program.attach(shader);
+    program += shader;
     return shader;
 }
 
@@ -111,6 +111,12 @@ int main(int argc, char** argv)
     {
         spdlog::error("Could not link program");
         spdlog::error("{0}", program.error());
+        return EXIT_FAILURE;
+    }
+
+    {
+        std::ofstream program_binary("program.bin", std::ios_base::binary);
+        program_binary << program;
     }
 
     spdlog::info("Compilation successful");
