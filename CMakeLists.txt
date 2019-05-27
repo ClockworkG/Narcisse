@@ -34,6 +34,7 @@ target_sources(pogl
                PRIVATE ${SOURCE_DIR}/pogl/program.cc)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
 target_link_libraries(pogl ${GL_LIBS} stdc++fs)
+set_target_properties(pogl PROPERTIES CXX_STANDARD 17)
 
 
 # Shader compiler

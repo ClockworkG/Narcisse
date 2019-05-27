@@ -35,6 +35,7 @@ namespace pogl
     template <GLenum ShaderType>
     Shader<ShaderType>::Shader(Shader&& other)
         : shader_id_(std::exchange(other.shader_id_, INVALID_SHADER))
+        , compilation_success_(other.compilation_success_)
     {}
 
     template <GLenum ShaderType>
@@ -44,6 +45,7 @@ namespace pogl
             glDeleteShader(shader_id_);
 
         shader_id_ = std::exchange(other.shader_id_, INVALID_SHADER);
+        compilation_success_ = other.compilation_success_;
 
         return *this;
     }
@@ -52,6 +54,12 @@ namespace pogl
     Shader<ShaderType>::operator bool() const noexcept
     {
         return shader_id_ != INVALID_SHADER && compilation_success_ != GL_FALSE;
+    }
+
+    template <GLenum ShaderType>
+    Shader<ShaderType>::operator GLuint() const noexcept
+    {
+        return shader_id_;
     }
 
     template <GLenum ShaderType>
@@ -81,6 +89,9 @@ namespace pogl
     {
         std::vector<std::string> lines;
         std::ifstream shader_stream{source_path};
+
+        if (!shader_stream)
+            return Shader();
 
         for (std::string line; std::getline(shader_stream, line); )
             lines.push_back(line + "\n");
