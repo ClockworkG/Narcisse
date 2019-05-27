@@ -3,8 +3,6 @@
 #include <istream>
 #include <list>
 #include <ostream>
-#include <string>
-#include <vector>
 
 #include <GL/glew.h>
 
@@ -16,9 +14,6 @@ namespace pogl
 
     class Program
     {
-        friend std::ostream& operator<<(std::ostream& os, const Program&);
-        friend std::istream& operator>>(std::istream&, Program&);
-
     public:
         Program();
         ~Program();
@@ -34,8 +29,10 @@ namespace pogl
         template <GLenum ShaderType>
         Program& operator+=(const Shader<ShaderType>& shader);
 
-        bool operator()();
+        bool link();
         std::string error() const;
+
+        operator GLuint() const noexcept;
 
     private:
         GLuint program_id_ = INVALID_PROGRAM;

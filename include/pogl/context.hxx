@@ -1,28 +1,12 @@
 #pragma once
 
-#include "context.hh"
+#include <pogl/context.hh>
 
 namespace pogl
 {
-    inline bool init_glut_context(const GlutContextArguments& args)
+    template <typename Func>
+    void set_callback(Func&& func)
     {
-        auto [argc, argv] = args.cli_args;
-        glutInit(&argc, argv);
-
-        auto [major, minor] = args.version;
-        glutInitContextVersion(major, minor);
-
-        glutInitContextProfile(args.context_profile);
-        glutInitDisplayMode(args.display_mode);
-
-        auto [width, height] = args.window_size;
-        glutInitWindowSize(width, height);
-
-        glutCreateWindow(args.window_name);
-
-        if (glewInit())
-            return false;
-
-        return true;
+        glutDisplayFunc(func);
     }
 } // namespace pogl

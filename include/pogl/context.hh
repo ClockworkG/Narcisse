@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#include <pogl/program.hh>
+
 namespace pogl
 {
     struct GlutVersion
@@ -42,4 +44,4 @@ namespace pogl
     bool init_glut_context(const GlutContextArguments& args);
 } // namespace pogl
 
-#include "context.hxx"
+#include <pogl/context.hxx>

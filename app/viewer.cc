@@ -3,14 +3,14 @@
 
 int main(int argc, char** argv)
 {
-    pogl::init_glut_context(
-        pogl::GlutContextArguments(argc, argv)
-    );
+    if (!pogl::init_glut_context(pogl::GlutContextArguments(argc, argv)))
+    {
+        spdlog::error("Unable to init GL context");
+        return EXIT_FAILURE;
+    }
 
-    pogl::Program program;
-    std::ifstream binary("program.bin", std::ios_base::binary);
-
-    binary >> program;
+    auto scene = pogl::get_scene();
+    scene->run();
 
     return EXIT_SUCCESS;
 }

@@ -107,7 +107,7 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    if (!program())
+    if (!program.link())
     {
         spdlog::error("Could not link program");
         spdlog::error("{0}", program.error());

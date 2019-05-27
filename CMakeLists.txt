@@ -17,7 +17,7 @@ set(APP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/app)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set(GL_LIBS "-lglut -lGLEW -lGLU")
+set(GL_LIBS "-lGL -lglut -lGLEW -lGLU")
 
 # Narcisse viewer
 add_executable(viewer)
@@ -32,6 +32,8 @@ add_library(pogl STATIC)
 target_sources(pogl
                INTERFACE ${INCLUDE_DIR}/pogl/pogl.hh
                PRIVATE ${SOURCE_DIR}/pogl/program.cc
+                       ${SOURCE_DIR}/pogl/context.cc
+                       ${SOURCE_DIR}/pogl/scene.cc
                        ${SOURCE_DIR}/pogl/detail/shader-source.cc)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
 target_link_libraries(pogl ${GL_LIBS} stdc++fs)

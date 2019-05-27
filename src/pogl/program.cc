@@ -4,7 +4,7 @@
 
 namespace pogl
 {
-    constexpr static inline std::size_t BINARY_TYPE_LEN = sizeof (GLenum);
+    constexpr static inline auto BINARY_TYPE_LEN = sizeof (GLenum);
 
     Program::Program()
         : program_id_(glCreateProgram())
@@ -30,15 +30,17 @@ namespace pogl
             glDeleteProgram(program_id_);
 
         program_id_ = std::exchange(other.program_id_, INVALID_PROGRAM);
+
         return *this;
     }
 
-    bool Program::operator()()
+    bool Program::link()
     {
         glLinkProgram(program_id_);
 
         GLint link_success = 0;
         glGetProgramiv(program_id_, GL_LINK_STATUS, &link_success);
+
         return link_success != GL_FALSE;
     }
 
@@ -64,15 +66,20 @@ namespace pogl
         shaders_.clear();
     }
 
+    Program::operator GLuint() const noexcept
+    {
+        return program_id_;
+    }
+
     std::ostream& operator<<(std::ostream& os, const Program& program)
     {
         int program_len = 0;
-        glGetProgramiv(program.program_id_,
+        glGetProgramiv(program,
                        GL_PROGRAM_BINARY_LENGTH,
                        &program_len);
 
         std::vector<char> buffer(program_len + BINARY_TYPE_LEN);
-        glGetProgramBinary(program.program_id_,
+        glGetProgramBinary(program,
                            program_len,
                            &program_len,
                            reinterpret_cast<GLenum*>(buffer.data()),
@@ -93,7 +100,7 @@ namespace pogl
 
         std::copy(begin, end, buffer_it);
 
-        glProgramBinary(program.program_id_,
+        glProgramBinary(program,
                         reinterpret_cast<GLenum*>(buffer.data())[0],
                         buffer.data() + BINARY_TYPE_LEN,
                         buffer.size() - BINARY_TYPE_LEN);
