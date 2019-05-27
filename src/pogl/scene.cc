@@ -19,6 +19,16 @@ namespace pogl
 
     void Scene::display_() const
     {
+        std::for_each(begin(objects_), end(objects_),
+                      [](const auto& obj)
+                      {
+                          obj();
+                      });
+    }
+
+    void Scene::add_object(Object&& obj)
+    {
+        objects_.push_back(std::move(obj));
     }
 
     Scene* Scene::instance()

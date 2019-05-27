@@ -41,6 +41,8 @@ namespace pogl
 
         size_type size() const noexcept;
 
+        operator GLuint() const noexcept;
+
     private:
         GLuint vbo_id_ = INVALID_VBO;
         data_type data_;

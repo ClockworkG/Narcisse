@@ -99,4 +99,10 @@ namespace pogl
                      data_.data(),
                      GL_STATIC_DRAW);
     }
+
+    template <typename T>
+    VBO<T>::operator GLuint() const noexcept
+    {
+        return vbo_id_;
+    }
 } // namespace pogl

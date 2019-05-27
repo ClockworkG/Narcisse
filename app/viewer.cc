@@ -9,7 +9,15 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    auto shader = pogl::make_program("vertex.glsl", "fragment.glsl");
+    auto obj = pogl::Object({
+        0.0f,  0.5f,  0.0f,
+        0.5f, -0.5f,  0.0f,
+        -0.5f, -0.5f,  0.0f
+    });
     auto scene = pogl::get_scene();
+
+    scene->add_object(std::move(obj));
     scene->run();
 
     return EXIT_SUCCESS;

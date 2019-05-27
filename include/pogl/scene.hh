@@ -1,5 +1,9 @@
 #pragma once
 
+#include <list>
+
+#include <pogl/object.hh>
+
 #include <GL/glew.h>
 
 namespace pogl
@@ -15,6 +19,7 @@ namespace pogl
         Scene& operator=(Scene&&) = delete;
 
         void run() const;
+        void add_object(Object&& obj);
 
     private:
         Scene() = default;
@@ -22,6 +27,8 @@ namespace pogl
         static void display();
 
         void display_() const;
+
+        std::list<Object> objects_;
     };
 
     Scene* get_scene();
