@@ -107,4 +107,20 @@ namespace pogl
 
         return is;
     }
+
+    Program make_program(const std::filesystem::path& vertex,
+                         const std::filesystem::path& fragment)
+    {
+        auto vertex_shader = make_shader<vertex_shader_t>(vertex);
+        auto fragment_shader = make_shader<fragment_shader_t>(fragment);
+
+        Program program;
+        program.attach(vertex_shader)
+               .attach(fragment_shader);
+
+        if (!program.link())
+            throw std::runtime_error{program.error()};
+
+        return program;
+    }
 } // namespace pogl

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <istream>
 #include <list>
 #include <ostream>
@@ -40,6 +41,9 @@ namespace pogl
 
         void detach_all();
     };
+
+    Program make_program(const std::filesystem::path& vertex,
+                         const std::filesystem::path& fragment);
 
     std::ostream& operator<<(std::ostream& os, const Program& program);
     std::istream& operator>>(std::istream& is, Program& program);
