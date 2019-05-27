@@ -18,6 +18,7 @@ pogl::shader_t compile_shader(const fs::path& filename, pogl::Program& program)
     auto shader = pogl::make_shader<Shader>(filename);
     if (!shader)
         throw std::runtime_error{shader.error()};
+
     program.attach(shader);
     return shader;
 }

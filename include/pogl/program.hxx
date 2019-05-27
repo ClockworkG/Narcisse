@@ -4,8 +4,8 @@
 
 namespace pogl
 {
-    template <typename Shader>
-    Program& Program::attach(const Shader& shader)
+    template <GLenum ShaderType>
+    Program& Program::attach(const Shader<ShaderType>& shader)
     {
         glAttachShader(program_id_, shader);
         shaders_.push_back(shader);

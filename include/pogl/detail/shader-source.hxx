@@ -5,15 +5,6 @@
 
 namespace pogl::detail
 {
-    ShaderSource::~ShaderSource()
-    {
-        for (int i = 0; i < count; i++)
-            delete[] string[i];
-
-        delete[] length;
-        delete[] string;
-    }
-
     template <typename Iterator>
     ShaderSource make_shader_source(Iterator begin, Iterator end)
     {

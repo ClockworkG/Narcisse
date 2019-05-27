@@ -31,7 +31,8 @@ set_target_properties(viewer PROPERTIES CXX_STANDARD 17)
 add_library(pogl STATIC)
 target_sources(pogl
                INTERFACE ${INCLUDE_DIR}/pogl/pogl.hh
-               PRIVATE ${SOURCE_DIR}/pogl/program.cc)
+               PRIVATE ${SOURCE_DIR}/pogl/program.cc
+                       ${SOURCE_DIR}/pogl/detail/shader-source.cc)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
 target_link_libraries(pogl ${GL_LIBS} stdc++fs)
 set_target_properties(pogl PROPERTIES CXX_STANDARD 17)

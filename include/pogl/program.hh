@@ -6,6 +6,8 @@
 
 #include <GL/glew.h>
 
+#include <pogl/shader.hh>
+
 namespace pogl
 {
     constexpr GLuint INVALID_PROGRAM = 0;
@@ -21,8 +23,8 @@ namespace pogl
         Program(const Program&) = delete;
         Program& operator=(const Program&) = delete;
 
-        template <typename Shader>
-        Program& attach(const Shader& shader);
+        template <GLenum ShaderType>
+        Program& attach(const Shader<ShaderType>& shader);
 
         bool operator()();
         std::string error() const;
