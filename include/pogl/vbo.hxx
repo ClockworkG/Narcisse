@@ -16,10 +16,10 @@ namespace pogl
     template <typename U>
     VBO<T>::VBO(const std::initializer_list<U>& init)
         : vbo_id_(INVALID_VBO)
-        , data_(FlattenPolicy<U>::size() * init.size())
+        , data_(detail::FlattenPolicy<U>::size() * init.size())
     {
-        FlattenPolicy<U>::copy(std::begin(init),
-                               std::end(init), std::begin(data_));
+        detail::FlattenPolicy<U>::copy(std::begin(init),
+                                       std::end(init), std::begin(data_));
         init_vbo_();
     }
 
@@ -28,12 +28,12 @@ namespace pogl
     VBO<T>::VBO(Iterator begin, Iterator end)
         : vbo_id_(INVALID_VBO)
         , data_(
-            FlattenPolicy<
+            detail::FlattenPolicy<
                 typename std::iterator_traits<Iterator>::value_type
             >::size() * std::distance(begin, end)
         )
     {
-        FlattenPolicy<
+        detail::FlattenPolicy<
             typename std::iterator_traits<Iterator>::value_type
         >::copy(begin, end, std::begin(data_));
         init_vbo_();

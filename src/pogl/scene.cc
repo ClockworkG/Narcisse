@@ -4,41 +4,31 @@
 
 namespace pogl
 {
-    void Scene::run() const
-    {
-        glutDisplayFunc(Scene::display);
-        glutMainLoop();
-    }
-
-    void Scene::display()
+    void Scene::display() const
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        instance()->display_();
         glutSwapBuffers();
     }
 
-    void Scene::display_() const
+    void set_current_scene(scene_ptr_t scene)
     {
-        std::for_each(begin(objects_), end(objects_),
-                      [this](const auto& obj)
-                      {
-                          obj(camera_);
-                      });
+        Scene::current_scene = scene;
     }
 
-    void Scene::add_object(Object&& obj)
+    scene_ptr_t load_scene(const fs::path&)
     {
-        objects_.push_back(std::move(obj));
+        return std::make_shared<Scene>();
     }
 
-    Scene* Scene::instance()
+    void run_opengl()
     {
-        static Scene the_scene;
-        return &the_scene;
-    }
-
-    Scene* get_scene()
-    {
-        return Scene::instance();
+        glutDisplayFunc(
+            []()
+            {
+                if (Scene::current_scene != nullptr)
+                    Scene::current_scene->display();
+            }
+        );
+        glutMainLoop();
     }
 } // namespace pogl

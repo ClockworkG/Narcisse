@@ -7,7 +7,7 @@ namespace pogl
 {
     struct CameraSettings
     {
-        glm::vec3 position = glm::vec3(0.0f, 0.0f, 1.0f);
+        glm::vec3 position = glm::vec3(2.0f, 4.0f, 8.0f);
         glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 

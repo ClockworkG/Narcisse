@@ -1,37 +1,41 @@
 #pragma once
 
-#include <list>
+#include <filesystem>
+#include <memory>
 
 #include <pogl/camera.hh>
-#include <pogl/object.hh>
 
 #include <GL/glew.h>
 
+namespace fs = std::filesystem;
+
 namespace pogl
 {
+    class Scene;
+
+    using scene_ptr_t = std::shared_ptr<Scene>;
+
     class Scene
     {
-        friend Scene* get_scene();
+        friend void set_current_scene(scene_ptr_t);
+        friend void run_opengl();
 
     public:
+        Scene() = default;
         Scene(const Scene&) = delete;
         Scene(Scene&&) = delete;
         Scene& operator=(const Scene&) = delete;
         Scene& operator=(Scene&&) = delete;
 
-        void run() const;
-        void add_object(Object&& obj);
+        void display() const;
 
     private:
-        Scene() = default;
-        static Scene* instance();
-        static void display();
-
-        void display_() const;
+        static inline scene_ptr_t current_scene = nullptr;
 
         Camera camera_;
-        std::list<Object> objects_;
     };
 
-    Scene* get_scene();
+    scene_ptr_t load_scene(const fs::path& scene_path);
+    void set_current_scene(scene_ptr_t scene);
+    void run_opengl();
 } // namespace pogl

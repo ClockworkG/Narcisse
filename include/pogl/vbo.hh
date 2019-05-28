@@ -6,7 +6,7 @@
 
 #include <GL/glew.h>
 
-#include <pogl/flatten.hh>
+#include <pogl/detail/flatten.hh>
 
 namespace pogl
 {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstdint>
+#include <glm/glm.hpp>
 
-namespace pogl
+namespace pogl::detail
 {
     template <typename T>
     struct FlattenPolicy
@@ -14,6 +14,6 @@ namespace pogl
         template <typename ItInput, typename ItOutput>
         static void copy(ItInput in_begin, ItInput in_end, ItOutput out_begin);
     };
-} // namespace pogl
+} // namespace pogl::detail
 
-#include <pogl/flatten.hxx>
+#include <pogl/detail/flatten.hxx>
