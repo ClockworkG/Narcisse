@@ -47,8 +47,8 @@ namespace pogl
             glUseProgram(*program_);
             auto view_loc = glGetUniformLocation(*program_, "view");
             auto proj_loc = glGetUniformLocation(*program_, "proj");
-            glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.view));
-            glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.projection));
+            glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
+            glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
         }
 
         glBindVertexArray(vao_id_);

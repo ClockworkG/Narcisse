@@ -5,26 +5,36 @@
 
 namespace pogl
 {
+    struct CameraSettings
+    {
+        glm::vec3 position = glm::vec3(0.0f, 0.0f, 1.0f);
+        glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+        float fov = 45.f;
+        float aspect_ratio = 1.f;
+        float z_near = 0.1f;
+        float z_far = 100.f;
+    };
+
     class Camera
     {
     public:
-        Camera()
-            : view(glm::lookAt(position_, target_, up_))
-            , projection(glm::perspective(glm::radians(fov_), aspect_ratio_, z_near_, z_far_))
-        {
-        }
+        Camera(const CameraSettings& settings = CameraSettings{});
+        Camera(const Camera&) = default;
+        Camera(Camera&&) = default;
+        Camera& operator=(const Camera&) = default;
+        Camera& operator=(Camera&&) = default;
+
+        const glm::mat4& get_view() const noexcept;
+        const glm::mat4& get_projection() const noexcept;
 
     private:
-        glm::vec3 position_ = glm::vec3(2.0f, 3.0f, 8.0f);
-        glm::vec3 target_ = glm::vec3(0.0f, 0.0f, 0.0f);
-        glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
-        float fov_ = 45.f;
-        float aspect_ratio_ = 1.f;
-        float z_near_ = 0.1f;
-        float z_far_ = 100.f;
+        CameraSettings settings_;
 
-    public:
-        glm::mat4 view;
-        glm::mat4 projection;
+        glm::mat4 view_;
+        glm::mat4 projection_;
     };
 } // namespace pogl
+
+#include <pogl/camera.hxx>
