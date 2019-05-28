@@ -6,16 +6,19 @@
 
 #include <GL/glew.h>
 
+#include <pogl/flatten.hh>
+
 namespace pogl
 {
     constexpr GLuint INVALID_VBO = 0;
 
-    template <typename T>
+    template <typename T, typename Policy = FlattenPolicy<T>>
     class VBO
     {
     public:
-        using value_type = T;
-        using data_type = std::vector<T>;
+        using policy_type = Policy;
+        using value_type = typename Policy::value_type;
+        using data_type = std::vector<value_type>;
         using iterator = typename data_type::iterator;
         using const_iterator = typename data_type::const_iterator;
         using size_type = std::size_t;
