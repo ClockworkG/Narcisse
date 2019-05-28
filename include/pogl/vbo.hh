@@ -12,19 +12,20 @@ namespace pogl
 {
     constexpr GLuint INVALID_VBO = 0;
 
-    template <typename T, typename Policy = FlattenPolicy<T>>
+    template <typename T>
     class VBO
     {
     public:
-        using policy_type = Policy;
-        using value_type = typename Policy::value_type;
-        using data_type = std::vector<value_type>;
+        using value_type = T;
+        using data_type = std::vector<T>;
         using iterator = typename data_type::iterator;
         using const_iterator = typename data_type::const_iterator;
         using size_type = std::size_t;
 
         VBO(size_type size, value_type default_init = value_type{});
-        VBO(const std::initializer_list<T>& init);
+
+        template <typename U>
+        VBO(const std::initializer_list<U>& init);
 
         template <typename Iterator>
         VBO(Iterator begin, Iterator end);

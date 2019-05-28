@@ -111,6 +111,12 @@ namespace pogl
         auto vertex_shader = make_shader<vertex_shader_t>(vertex);
         auto fragment_shader = make_shader<fragment_shader_t>(fragment);
 
+        if (!vertex_shader)
+            throw std::runtime_error{vertex_shader.error()};
+
+        if (!fragment_shader)
+            throw std::runtime_error{fragment_shader.error()};
+
         program_ptr_t program = std::make_shared<Program>();
         (*program).attach(vertex_shader)
                   .attach(fragment_shader);
