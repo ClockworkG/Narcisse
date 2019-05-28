@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pogl/camera.hh>
 #include <pogl/context.hh>
 #include <pogl/object.hh>
 #include <pogl/program.hh>

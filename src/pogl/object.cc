@@ -9,9 +9,9 @@ namespace pogl
     {
         glGenVertexArrays(1, &vao_id_);
         glBindVertexArray(vao_id_);
-        glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertices_);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+        glEnableVertexAttribArray(0);
     }
 
     Object::~Object()
@@ -40,10 +40,16 @@ namespace pogl
         return *this;
     }
 
-    void Object::operator()() const
+    void Object::operator()(const Camera& cam) const
     {
         if (program_)
+        {
             glUseProgram(*program_);
+            auto view_loc = glGetUniformLocation(*program_, "view");
+            auto proj_loc = glGetUniformLocation(*program_, "proj");
+            glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.view));
+            glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.projection));
+        }
 
         glBindVertexArray(vao_id_);
         glDrawArrays(GL_TRIANGLES, 0, vertices_.size() / 3);

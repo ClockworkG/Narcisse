@@ -2,6 +2,7 @@
 
 #include <list>
 
+#include <pogl/camera.hh>
 #include <pogl/object.hh>
 
 #include <GL/glew.h>
@@ -28,6 +29,7 @@ namespace pogl
 
         void display_() const;
 
+        Camera camera_;
         std::list<Object> objects_;
     };
 

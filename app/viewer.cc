@@ -2,6 +2,7 @@
 #include <pogl/pogl.hh>
 
 #include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 template<>
 std::size_t pogl::FlattenPolicy<glm::vec3>::size()

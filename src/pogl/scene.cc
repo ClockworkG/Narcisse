@@ -20,9 +20,9 @@ namespace pogl
     void Scene::display_() const
     {
         std::for_each(begin(objects_), end(objects_),
-                      [](const auto& obj)
+                      [this](const auto& obj)
                       {
-                          obj();
+                          obj(camera_);
                       });
     }
 
