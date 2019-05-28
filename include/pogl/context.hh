@@ -43,5 +43,3 @@ namespace pogl
 
     bool init_glut_context(const GlutContextArguments& args);
 } // namespace pogl
-
-#include <pogl/context.hxx>
