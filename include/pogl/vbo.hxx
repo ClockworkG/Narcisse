@@ -88,6 +88,18 @@ namespace pogl
     }
 
     template <typename T, typename Policy>
+    auto VBO<T, Policy>::operator[](size_type idx) const -> value_type
+    {
+        return data_[idx];
+    }
+
+    template <typename T, typename Policy>
+    auto VBO<T, Policy>::operator[](size_type idx) -> value_type&
+    {
+        return data_[idx];
+    }
+
+    template <typename T, typename Policy>
     void VBO<T, Policy>::init_vbo_()
     {
         glGenBuffers(1, &vbo_id_);

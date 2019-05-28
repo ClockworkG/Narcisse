@@ -44,6 +44,9 @@ namespace pogl
 
         size_type size() const noexcept;
 
+        value_type operator[](size_type idx) const;
+        value_type& operator[](size_type idx);
+
         operator GLuint() const noexcept;
 
     private:
