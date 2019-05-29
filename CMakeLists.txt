@@ -38,7 +38,7 @@ target_sources(pogl
                        ${SOURCE_DIR}/pogl/object.cc
                        ${SOURCE_DIR}/pogl/detail/shader-source.cc)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
-target_link_libraries(pogl ${GL_LIBS} stdc++fs)
+target_link_libraries(pogl ${GL_LIBS} stdc++fs nlohmann_json)
 set_target_properties(pogl PROPERTIES CXX_STANDARD 17)
 
 

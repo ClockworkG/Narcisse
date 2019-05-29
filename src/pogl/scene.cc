@@ -1,6 +1,13 @@
+#include <fstream>
+
 #include <pogl/scene.hh>
+#include <pogl/scene-reader.hh>
+
+#include <nlohmann/json.hpp>
 
 #include <GL/freeglut.h>
+
+using json = nlohmann::json;
 
 namespace pogl
 {
@@ -15,9 +22,21 @@ namespace pogl
         Scene::current_scene = scene;
     }
 
-    scene_ptr_t load_scene(const fs::path&)
+    scene_ptr_t load_scene(const fs::path& scene_path)
     {
-        return std::make_shared<Scene>();
+        std::ifstream is{scene_path};
+        if (!is)
+            return nullptr;
+
+        json json_handler;
+        is >> json_handler;
+
+        auto scene = std::make_shared<Scene>();
+
+        if (json_handler.contains("camera"))
+            scene->camera_ = read_scene<Camera>(json_handler["camera"]);
+
+        return scene;
     }
 
     void run_opengl()

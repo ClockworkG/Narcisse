@@ -17,6 +17,7 @@ namespace pogl
 
     class Scene
     {
+        friend scene_ptr_t load_scene(const fs::path&);
         friend void set_current_scene(scene_ptr_t);
         friend void run_opengl();
 
