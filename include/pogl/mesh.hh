@@ -19,6 +19,7 @@ namespace pogl
         Mesh& operator=(const Mesh&) = default;
 
         std::vector<glm::vec3> vertices;
+        std::vector<glm::vec3> normals;
     };
 
     Mesh make_mesh(const fs::path& obj_path);

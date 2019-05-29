@@ -25,5 +25,6 @@ namespace pogl
     private:
         GLuint vao_id_ = INVALID_VAO;
         VBO<float> vertices_;
+        VBO<float> normals_;
     };
 } // namespace pogl

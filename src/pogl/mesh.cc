@@ -35,6 +35,11 @@ namespace pogl
                         attrib.vertices[3 * idx.vertex_index + 1],
                         attrib.vertices[3 * idx.vertex_index + 2]
                     );
+                    mesh.normals.emplace_back(
+                        attrib.normals[3 * idx.normal_index + 0],
+                        attrib.normals[3 * idx.normal_index + 1],
+                        attrib.normals[3 * idx.normal_index + 2]
+                    );
                 }
                 index_offset += fv;
             }

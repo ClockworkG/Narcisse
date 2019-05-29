@@ -39,6 +39,8 @@ namespace pogl
         void display() const;
         void add_object(Object&& object);
 
+        const Camera& get_camera() const noexcept;
+
     private:
         static inline scene_ptr_t current_scene = nullptr;
 
@@ -50,3 +52,5 @@ namespace pogl
     void set_current_scene(scene_ptr_t scene);
     void run_opengl();
 } // namespace pogl
+
+#include <pogl/scene.hxx>
