@@ -11,6 +11,10 @@ using json = nlohmann::json;
 
 namespace pogl
 {
+    Scene::Scene(SceneSettings settings)
+        : settings_(settings)
+    {}
+
     void Scene::display() const
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -31,12 +35,9 @@ namespace pogl
         json json_handler;
         is >> json_handler;
 
-        auto scene = std::make_shared<Scene>();
-
-        if (json_handler.contains("camera"))
-            scene->camera_ = read_scene<Camera>(json_handler["camera"]);
-
-        return scene;
+        SceneSettings scene_settings;
+        deserialize(json_handler, scene_settings);
+        return std::make_shared<Scene>(scene_settings);
     }
 
     void run_opengl()

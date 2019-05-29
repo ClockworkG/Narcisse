@@ -1,6 +1,13 @@
 #pragma once
 
 #include <pogl/camera.hh>
+#include <pogl/scene.hh>
+
+BOOST_HANA_ADAPT_STRUCT(
+    pogl::SceneSettings,
+    camera,
+    background
+);
 
 BOOST_HANA_ADAPT_STRUCT(
     pogl::CameraSettings,

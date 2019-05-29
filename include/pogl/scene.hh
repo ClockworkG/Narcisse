@@ -15,14 +15,19 @@ namespace pogl
 
     using scene_ptr_t = std::shared_ptr<Scene>;
 
+    struct SceneSettings
+    {
+        Camera camera;
+        glm::vec3 background;
+    };
+
     class Scene
     {
-        friend scene_ptr_t load_scene(const fs::path&);
         friend void set_current_scene(scene_ptr_t);
         friend void run_opengl();
 
     public:
-        Scene() = default;
+        Scene(SceneSettings settings = SceneSettings{});
         Scene(const Scene&) = delete;
         Scene(Scene&&) = delete;
         Scene& operator=(const Scene&) = delete;
@@ -33,7 +38,7 @@ namespace pogl
     private:
         static inline scene_ptr_t current_scene = nullptr;
 
-        Camera camera_;
+        SceneSettings settings_;
     };
 
     scene_ptr_t load_scene(const fs::path& scene_path);
