@@ -27,6 +27,7 @@ namespace pogl
 
     private:
         GLint location_ = INVALID_LOCATION;
+        std::string name_;
 
         VertexAttribPointer(const Program& program,
                             const std::string& name);

@@ -3,6 +3,12 @@
 #include <pogl/camera.hh>
 #include <pogl/scene.hh>
 
+#include <GL/glew.h>
+
+#include <boost/hana.hpp>
+
+namespace hana = boost::hana;
+
 BOOST_HANA_ADAPT_STRUCT(
     pogl::SceneSettings,
     camera,

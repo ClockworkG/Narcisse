@@ -2,13 +2,15 @@
 
 #include <GL/glew.h>
 
-#include <pogl/vbo.hh>
 #include <pogl/mesh.hh>
 #include <pogl/program.hh>
 #include <pogl/camera.hh>
+#include <pogl/vbo.hh>
 
 namespace pogl
 {
+    using program_ptr_t = std::shared_ptr<pogl::Program>;
+
     constexpr GLuint INVALID_VAO = 0;
 
     class Object

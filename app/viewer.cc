@@ -12,9 +12,16 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    auto scene = pogl::load_scene("scene.json");
+    try {
+        auto scene = pogl::load_scene("scene.json");
+        pogl::set_current_scene(scene);
+    }
+    catch (const std::runtime_error& err)
+    {
+        spdlog::error("{0}", err.what());
+        return EXIT_FAILURE;
+    }
 
-    pogl::set_current_scene(scene);
     pogl::run_opengl();
 
     return EXIT_SUCCESS;

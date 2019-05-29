@@ -7,5 +7,6 @@ namespace pogl
     VertexAttribPointer::VertexAttribPointer(const Program& program,
                                              const std::string& name)
         : location_(glGetAttribLocation(program, name.c_str()))
+        , name_(name)
     {}
 } // namespace pogl

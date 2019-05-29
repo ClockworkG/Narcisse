@@ -8,11 +8,12 @@ namespace pogl
     {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
+        std::vector<tinyobj::material_t> materials;
 
         std::string err;
         std::string warn;
 
-        bool ret = tinyobj::LoadObj(&attrib, &shapes, nullptr,
+        bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials,
                                     &warn, &err, obj_path.c_str());
 
         auto mesh = Mesh{};

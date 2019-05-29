@@ -11,8 +11,8 @@ namespace pogl
         glGenVertexArrays(1, &vao_id_);
         glBindVertexArray(vao_id_);
 
-        shader_->attrib("vp") = vertices_;
-        shader_->attrib("n") = normals_;
+        shader_->attrib("position") = vertices_;
+        shader_->attrib("normal") = normals_;
     }
 
     Object::~Object()
@@ -48,15 +48,16 @@ namespace pogl
         if (shader_ != nullptr)
         {
             glUseProgram(*shader_);
+
             auto view_loc = glGetUniformLocation(*shader_, "view");
             auto proj_loc = glGetUniformLocation(*shader_, "proj");
             glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
             glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
+            glBindVertexArray(vao_id_);
+            glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
+
+            glUseProgram(0);
+
         }
-
-        glBindVertexArray(vao_id_);
-        glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
-
-        glUseProgram(0);
     }
 } // namespace pogl
