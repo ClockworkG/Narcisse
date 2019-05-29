@@ -11,8 +11,8 @@ using json = nlohmann::json;
 
 namespace pogl
 {
-    Scene::Scene(SceneSettings settings)
-        : settings_(settings)
+    Scene::Scene(SceneSettings&& settings)
+        : settings_(std::move(settings))
     {
         const auto& background = settings_.background;
         glClearColor(background.x, background.y, background.z, 1.0);
@@ -39,8 +39,8 @@ namespace pogl
         is >> json_handler;
 
         SceneSettings scene_settings;
-        deserialize(json_handler, scene_settings);
-        return std::make_shared<Scene>(scene_settings);
+        deserialize(json_handler["scene"], scene_settings);
+        return std::make_shared<Scene>(std::move(scene_settings));
     }
 
     void run_opengl()

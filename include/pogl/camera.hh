@@ -20,7 +20,8 @@ namespace pogl
     class Camera
     {
     public:
-        Camera(const CameraSettings& settings = CameraSettings{});
+        Camera() = default;
+        Camera(CameraSettings&& settings);
         Camera(const Camera&) = default;
         Camera(Camera&&) = default;
         Camera& operator=(const Camera&) = default;

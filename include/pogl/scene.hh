@@ -27,7 +27,8 @@ namespace pogl
         friend void run_opengl();
 
     public:
-        Scene(SceneSettings settings = SceneSettings{});
+        Scene() = default;
+        Scene(SceneSettings&& settings);
         Scene(const Scene&) = delete;
         Scene(Scene&&) = delete;
         Scene& operator=(const Scene&) = delete;

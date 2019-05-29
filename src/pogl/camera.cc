@@ -2,8 +2,8 @@
 
 namespace pogl
 {
-    Camera::Camera(const CameraSettings& settings)
-        : settings_(settings)
+    Camera::Camera(CameraSettings&& settings)
+        : settings_(std::move(settings))
         , view_(
             glm::lookAt(
                 settings.position,

@@ -46,6 +46,6 @@ namespace pogl
     {
         CameraSettings settings;
         deserialize(scene, settings);
-        return Camera{settings};
+        return Camera(std::move(settings));
     }
 } // namespace pogl
