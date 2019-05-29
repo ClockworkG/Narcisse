@@ -13,7 +13,10 @@ namespace pogl
 {
     Scene::Scene(SceneSettings settings)
         : settings_(settings)
-    {}
+    {
+        const auto& background = settings_.background;
+        glClearColor(background.x, background.y, background.z, 1.0);
+    }
 
     void Scene::display() const
     {
