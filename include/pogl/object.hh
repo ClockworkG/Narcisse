@@ -4,6 +4,8 @@
 
 #include <pogl/vbo.hh>
 #include <pogl/mesh.hh>
+#include <pogl/program.hh>
+#include <pogl/camera.hh>
 
 namespace pogl
 {
@@ -12,7 +14,8 @@ namespace pogl
     class Object
     {
     public:
-        Object(const Mesh& mesh);
+        Object(const Mesh& mesh,
+               program_ptr_t shader);
         ~Object();
         Object(Object&&);
         Object& operator=(Object&&);
@@ -20,11 +23,12 @@ namespace pogl
         Object(const Object&) = delete;
         Object& operator=(const Object&) = delete;
 
-        void display() const;
+        void display(const Camera& cam) const;
 
     private:
         GLuint vao_id_ = INVALID_VAO;
-        VBO<float> vertices_;
-        VBO<float> normals_;
+        vbo_vec3_t vertices_;
+        vbo_vec3_t normals_;
+        program_ptr_t shader_;
     };
 } // namespace pogl

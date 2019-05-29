@@ -71,6 +71,11 @@ namespace pogl
         return program_id_;
     }
 
+    VertexAttribPointer Program::attrib(const std::string& name) const
+    {
+        return VertexAttribPointer(*this, name.c_str());
+    }
+
     std::ostream& operator<<(std::ostream& os, const Program& program)
     {
         int program_len = 0;

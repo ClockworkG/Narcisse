@@ -52,6 +52,7 @@ namespace pogl::detail
     template<>
     Object read_scene<Object>(const json& scene)
     {
-        return Object(make_mesh(scene["mesh"]));
+        auto shader_name = scene["shader"];
+        return Object(make_mesh(scene["mesh"]), get_shader(shader_name));
     }
 } // namespace pogl::detail

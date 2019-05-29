@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 
 #include <pogl/shader.hh>
+#include <pogl/vertex-attrib-pointer.hh>
 
 namespace pogl
 {
@@ -34,6 +35,8 @@ namespace pogl
         std::string error() const;
 
         operator GLuint() const noexcept;
+
+        VertexAttribPointer attrib(const std::string& name) const;
 
     private:
         GLuint program_id_ = INVALID_PROGRAM;

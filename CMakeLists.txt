@@ -35,6 +35,7 @@ target_sources(pogl
                        ${SOURCE_DIR}/pogl/context.cc
                        ${SOURCE_DIR}/pogl/scene.cc
                        ${SOURCE_DIR}/pogl/mesh.cc
+                       ${SOURCE_DIR}/pogl/vertex-attrib-pointer.cc
                        ${SOURCE_DIR}/pogl/camera.cc
                        ${SOURCE_DIR}/pogl/object.cc
                        ${SOURCE_DIR}/pogl/detail/shader-source.cc)

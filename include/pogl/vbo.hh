@@ -7,12 +7,13 @@
 #include <GL/glew.h>
 
 #include <pogl/detail/flatten.hh>
+#include <pogl/vertex-attrib-pointer.hh>
 
 namespace pogl
 {
     constexpr GLuint INVALID_VBO = 0;
 
-    template <typename T>
+    template <typename T, unsigned int Stride>
     class VBO
     {
     public:
@@ -21,6 +22,8 @@ namespace pogl
         using iterator = typename data_type::iterator;
         using const_iterator = typename data_type::const_iterator;
         using size_type = std::size_t;
+
+        constexpr static inline auto stride = Stride;
 
         VBO(size_type size, value_type default_init = value_type{});
 
@@ -44,6 +47,7 @@ namespace pogl
         const_iterator end() const;
 
         size_type size() const noexcept;
+        size_type real_size() const noexcept;
 
         value_type operator[](size_type idx) const;
         value_type& operator[](size_type idx);
@@ -56,6 +60,8 @@ namespace pogl
 
         void init_vbo_();
     };
+
+    using vbo_vec3_t = VBO<float, 3>;
 } // namespace pogl
 
 #include <pogl/vbo.hxx>

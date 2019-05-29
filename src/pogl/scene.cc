@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include <pogl/scene.hh>
+#include <pogl/context.hh>
 #include <pogl/detail/scene-reader.hh>
 
 #include <nlohmann/json.hpp>
@@ -28,7 +29,7 @@ namespace pogl
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (const auto& obj : objects_)
-            obj.display();
+            obj.display(settings_.camera);
 
         glutSwapBuffers();
     }
@@ -52,11 +53,19 @@ namespace pogl
 
         auto scene = std::make_shared<Scene>(std::move(scene_settings));
 
+        for (const auto& [key, value] : json_handler["shaders"].items())
+        {
+            std::string vertex_path = value[0];
+            std::string fragment_path = value[1];
+            set_shader(key, make_program(vertex_path, fragment_path));
+        }
+
         if (json_handler["scene"].contains("objects"))
         {
             for (const auto& obj : json_handler["scene"]["objects"])
                 scene->add_object(detail::read_scene<Object>(obj));
         }
+
         return scene;
     }
 

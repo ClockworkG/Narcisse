@@ -4,17 +4,17 @@
 
 namespace pogl
 {
-    template <typename T>
-    VBO<T>::VBO(size_type size, value_type default_init)
+    template <typename T, unsigned int Stride>
+    VBO<T, Stride>::VBO(size_type size, value_type default_init)
         : vbo_id_(INVALID_VBO)
         , data_(size, default_init)
     {
         init_vbo_();
     }
 
-    template <typename T>
+    template <typename T, unsigned int Stride>
     template <typename U>
-    VBO<T>::VBO(const std::initializer_list<U>& init)
+    VBO<T, Stride>::VBO(const std::initializer_list<U>& init)
         : vbo_id_(INVALID_VBO)
         , data_(detail::FlattenPolicy<U>::size() * init.size())
     {
@@ -23,9 +23,9 @@ namespace pogl
         init_vbo_();
     }
 
-    template <typename T>
+    template <typename T, unsigned int Stride>
     template <typename Iterator>
-    VBO<T>::VBO(Iterator begin, Iterator end)
+    VBO<T, Stride>::VBO(Iterator begin, Iterator end)
         : vbo_id_(INVALID_VBO)
         , data_(
             detail::FlattenPolicy<
@@ -39,8 +39,8 @@ namespace pogl
         init_vbo_();
     }
 
-    template <typename T>
-    VBO<T>::~VBO()
+    template <typename T, unsigned int Stride>
+    VBO<T, Stride>::~VBO()
     {
         if (vbo_id_ != INVALID_VBO)
             glDeleteBuffers(1, &vbo_id_);
@@ -48,14 +48,14 @@ namespace pogl
         vbo_id_ = INVALID_VBO;
     }
 
-    template <typename T>
-    VBO<T>::VBO(VBO&& other)
+    template <typename T, unsigned int Stride>
+    VBO<T, Stride>::VBO(VBO&& other)
         : vbo_id_(std::exchange(other.vbo_id_, INVALID_VBO))
         , data_(std::move(other.data_))
     {}
 
-    template <typename T>
-    auto VBO<T>::operator=(VBO&& other) -> VBO&
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::operator=(VBO&& other) -> VBO&
     {
         if (vbo_id_ != INVALID_VBO)
             glDeleteBuffers(1, &vbo_id_);
@@ -66,50 +66,56 @@ namespace pogl
         return *this;
     }
 
-    template <typename T>
-    auto VBO<T>::begin() -> iterator
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::begin() -> iterator
     {
         return std::begin(data_);
     }
 
-    template <typename T>
-    auto VBO<T>::end() -> iterator
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::end() -> iterator
     {
         return std::end(data_);
     }
 
-    template <typename T>
-    auto VBO<T>::begin() const -> const_iterator
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::begin() const -> const_iterator
     {
         return std::cbegin(data_);
     }
 
-    template <typename T>
-    auto VBO<T>::end() const -> const_iterator
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::end() const -> const_iterator
     {
         return std::cend(data_);
     }
 
-    template <typename T>
-    auto VBO<T>::size() const noexcept -> size_type
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::size() const noexcept -> size_type
+    {
+        return data_.size() / Stride;
+    }
+
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::real_size() const noexcept -> size_type
     {
         return data_.size();
     }
 
-    template <typename T>
-    auto VBO<T>::operator[](size_type idx) const -> value_type
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::operator[](size_type idx) const -> value_type
     {
         return data_[idx];
     }
 
-    template <typename T>
-    auto VBO<T>::operator[](size_type idx) -> value_type&
+    template <typename T, unsigned int Stride>
+    auto VBO<T, Stride>::operator[](size_type idx) -> value_type&
     {
         return data_[idx];
     }
 
-    template <typename T>
-    void VBO<T>::init_vbo_()
+    template <typename T, unsigned int Stride>
+    void VBO<T, Stride>::init_vbo_()
     {
         glGenBuffers(1, &vbo_id_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_id_);
@@ -121,8 +127,8 @@ namespace pogl
                      GL_STATIC_DRAW);
     }
 
-    template <typename T>
-    VBO<T>::operator GLuint() const noexcept
+    template <typename T, unsigned int Stride>
+    VBO<T, Stride>::operator GLuint() const noexcept
     {
         return vbo_id_;
     }

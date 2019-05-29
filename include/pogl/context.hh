@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
@@ -42,4 +44,6 @@ namespace pogl
     };
 
     bool init_glut_context(const GlutContextArguments& args);
+    program_ptr_t get_shader(const std::string& name);
+    void set_shader(const std::string& name, program_ptr_t shader);
 } // namespace pogl
