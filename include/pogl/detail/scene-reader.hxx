@@ -5,7 +5,7 @@
 
 namespace hana = boost::hana;
 
-namespace pogl
+namespace pogl::detail
 {
     template<>
     glm::vec3 read_scene<glm::vec3>(const json& scene)
@@ -48,4 +48,10 @@ namespace pogl
         deserialize(scene, settings);
         return Camera(std::move(settings));
     }
-} // namespace pogl
+
+    template<>
+    Object read_scene<Object>(const json& scene)
+    {
+        return Object(make_mesh(scene["mesh"]));
+    }
+} // namespace pogl::detail

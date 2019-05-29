@@ -1,7 +1,7 @@
 #include <fstream>
 
 #include <pogl/scene.hh>
-#include <pogl/scene-reader.hh>
+#include <pogl/detail/scene-reader.hh>
 
 #include <nlohmann/json.hpp>
 
@@ -18,9 +18,18 @@ namespace pogl
         glClearColor(background.x, background.y, background.z, 1.0);
     }
 
+    void Scene::add_object(Object&& object)
+    {
+        objects_.push_back(std::move(object));
+    }
+
     void Scene::display() const
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        for (const auto& obj : objects_)
+            obj.display();
+
         glutSwapBuffers();
     }
 
@@ -39,8 +48,16 @@ namespace pogl
         is >> json_handler;
 
         SceneSettings scene_settings;
-        deserialize(json_handler["scene"], scene_settings);
-        return std::make_shared<Scene>(std::move(scene_settings));
+        detail::deserialize(json_handler["scene"], scene_settings);
+
+        auto scene = std::make_shared<Scene>(std::move(scene_settings));
+
+        if (json_handler["scene"].contains("objects"))
+        {
+            for (const auto& obj : json_handler["scene"]["objects"])
+                scene->add_object(detail::read_scene<Object>(obj));
+        }
+        return scene;
     }
 
     void run_opengl()

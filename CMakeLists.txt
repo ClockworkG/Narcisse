@@ -34,11 +34,12 @@ target_sources(pogl
                PRIVATE ${SOURCE_DIR}/pogl/program.cc
                        ${SOURCE_DIR}/pogl/context.cc
                        ${SOURCE_DIR}/pogl/scene.cc
+                       ${SOURCE_DIR}/pogl/mesh.cc
                        ${SOURCE_DIR}/pogl/camera.cc
                        ${SOURCE_DIR}/pogl/object.cc
                        ${SOURCE_DIR}/pogl/detail/shader-source.cc)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
-target_link_libraries(pogl ${GL_LIBS} stdc++fs nlohmann_json)
+target_link_libraries(pogl ${GL_LIBS} stdc++fs nlohmann_json tinyobjloader)
 set_target_properties(pogl PROPERTIES CXX_STANDARD 17)
 
 

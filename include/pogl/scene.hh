@@ -1,9 +1,11 @@
 #pragma once
 
 #include <filesystem>
+#include <list>
 #include <memory>
 
 #include <pogl/camera.hh>
+#include <pogl/object.hh>
 
 #include <GL/glew.h>
 
@@ -35,11 +37,13 @@ namespace pogl
         Scene& operator=(Scene&&) = delete;
 
         void display() const;
+        void add_object(Object&& object);
 
     private:
         static inline scene_ptr_t current_scene = nullptr;
 
         SceneSettings settings_;
+        std::list<Object> objects_;
     };
 
     scene_ptr_t load_scene(const fs::path& scene_path);

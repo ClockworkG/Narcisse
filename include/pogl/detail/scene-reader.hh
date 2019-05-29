@@ -7,10 +7,10 @@ namespace fs = std::filesystem;
 
 using json = nlohmann::json;
 
-namespace pogl
+namespace pogl::detail
 {
     template <typename TargetType>
     TargetType read_scene(const json& scene);
-} // namespace pogl
+} // namespace pogl::detail
 
-#include <pogl/scene-reader.hxx>
+#include <pogl/detail/scene-reader.hxx>

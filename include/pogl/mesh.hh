@@ -1,28 +1,25 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <filesystem>
+#include <vector>
 
-#include <pogl/vbo.hh>
-#include <pogl/program.hh>
+#include <glm/glm.hpp>
+
+namespace fs = std::filesystem;
 
 namespace pogl
 {
-    constexpr GLuint INVALID_VAO = 0;
-
-    class Mesh
+    struct Mesh
     {
-    public:
-        Mesh();
-        ~Mesh();
-        Mesh(Mesh&&);
-        Mesh& operator=(Mesh&&);
+        Mesh() = default;
+        ~Mesh() = default;
+        Mesh(Mesh&&) = default;
+        Mesh& operator=(Mesh&&) = default;
+        Mesh(const Mesh&) = default;
+        Mesh& operator=(const Mesh&) = default;
 
-        Mesh(const Mesh&) = delete;
-        Mesh& operator=(const Mesh&) = delete;
-
-        void operator()() const;
-
-    private:
-        GLuint vao_id_ = INVALID_VAO;
+        std::vector<glm::vec3> vertices;
     };
+
+    Mesh make_mesh(const fs::path& obj_path);
 } // namespace pogl
