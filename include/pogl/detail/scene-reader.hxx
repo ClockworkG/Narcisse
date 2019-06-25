@@ -53,6 +53,17 @@ namespace pogl::detail
     Object read_scene<Object>(const json& scene)
     {
         auto shader_name = scene["shader"];
-        return Object(make_mesh(scene["mesh"]), get_shader(shader_name));
+        auto position = read_scene<glm::vec3>(scene["position"]);
+        auto rotation = read_scene<glm::vec3>(scene["rotation"]);
+        auto scale = read_scene<glm::vec3>(scene["scale"]);
+
+        auto object = Object(make_mesh(scene["mesh"]),
+                             get_shader(shader_name));
+
+        object.set_position(std::move(position));
+        object.set_rotation(std::move(rotation));
+        object.set_scale(std::move(scale));
+
+        return object;
     }
 } // namespace pogl::detail

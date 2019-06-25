@@ -27,10 +27,20 @@ namespace pogl
 
         void display(const Camera& cam) const;
 
+        void set_position(glm::vec3&& position);
+        void set_rotation(glm::vec3&& rotation);
+        void set_scale(glm::vec3&& scale);
+
     private:
         GLuint vao_id_ = INVALID_VAO;
         vbo_vec3_t vertices_;
         vbo_vec3_t normals_;
         program_ptr_t shader_;
+
+        glm::vec3 position_;
+        glm::vec3 rotation_;
+        glm::vec3 scale_;
     };
 } // namespace pogl
+
+#include <pogl/object.hxx>

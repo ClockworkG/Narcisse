@@ -2,8 +2,18 @@
 
 namespace pogl
 {
-    inline program_ptr_t Object::get_shader() const
+    inline void Object::set_position(glm::vec3&& position)
     {
-        return shader_;
+        position_ = position;
+    }
+
+    inline void Object::set_rotation(glm::vec3&& rotation)
+    {
+        rotation_ = rotation;
+    }
+
+    inline void Object::set_scale(glm::vec3&& scale)
+    {
+        scale_ = scale;
     }
 } // namespace pogl
