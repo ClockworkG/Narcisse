@@ -24,7 +24,7 @@ namespace pogl
         objects_.push_back(std::move(object));
     }
 
-    void Scene::display() const
+    void Scene::display()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -76,6 +76,8 @@ namespace pogl
             {
                 if (Scene::current_scene != nullptr)
                     Scene::current_scene->display();
+
+                glutPostRedisplay();
             }
         );
         glutMainLoop();

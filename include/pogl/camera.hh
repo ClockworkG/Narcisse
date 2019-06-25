@@ -30,11 +30,16 @@ namespace pogl
         const glm::mat4& get_view() const noexcept;
         const glm::mat4& get_projection() const noexcept;
 
+        void translate(const glm::vec3& vec);
+        void look(const glm::vec3& vec);
+
     private:
         CameraSettings settings_;
 
         glm::mat4 view_;
         glm::mat4 projection_;
+
+        void compute() noexcept;
     };
 } // namespace pogl
 

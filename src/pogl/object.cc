@@ -61,7 +61,7 @@ namespace pogl
             model = glm::translate(model, position_);
             model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
             model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
-            model = glm::rotate(model, rotation_.y, glm::vec3(0, 0, 1));
+            model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
             model = glm::scale(model, scale_);
 
             const glm::mat4 mvp = cam.get_projection() * cam.get_view() * model;

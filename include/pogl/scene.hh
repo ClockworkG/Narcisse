@@ -36,8 +36,9 @@ namespace pogl
         Scene& operator=(const Scene&) = delete;
         Scene& operator=(Scene&&) = delete;
 
-        void display() const;
+        void display();
         void add_object(Object&& object);
+        void mouse_move(int x, int y);
 
         const Camera& get_camera() const noexcept;
 
