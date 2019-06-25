@@ -1,0 +1,47 @@
+{
+    "shaders": {
+        "default": ["vertex.glsl", "fragment.glsl"]
+    },
+    "scene": {
+        "camera": {
+            "position": [2, 5, -3],
+            "target": [0, 0, 5],
+            "up": [0, 1, 0],
+            "fov": 60,
+            "ratio": 1.0,
+            "z_near": 0.1,
+            "z_far": 100.0
+        },
+        "background": [0, 0, 0],
+        "objects": [
+            {
+                "shader": "default",
+                "mesh": "sandwich.obj",
+                "position": [0, 0, 5],
+                "rotation": [0, 1.15, 0],
+                "scale": [1, 1, 1]
+            },
+            {
+                "shader": "default",
+                "mesh": "sandwich.obj",
+                "position": [-2, 0, 5],
+                "rotation": [0, 1.67, 0],
+                "scale": [1, 1, 1]
+            },
+            {
+                "shader": "default",
+                "mesh": "sandwich.obj",
+                "position": [2, 0, 5],
+                "rotation": [0, 2, 0],
+                "scale": [1, 1, 1]
+            },
+            {
+                "shader": "default",
+                "mesh": "sandwich.obj",
+                "position": [3.5, 0, 3],
+                "rotation": [0, 2.4, 0],
+                "scale": [1, 1, 1]
+            }
+        ]
+    }
+}
