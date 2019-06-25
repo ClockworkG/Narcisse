@@ -48,6 +48,7 @@ namespace pogl
         if (shader_ != nullptr)
         {
             glUseProgram(*shader_);
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
             auto view_loc = glGetUniformLocation(*shader_, "view");
             auto proj_loc = glGetUniformLocation(*shader_, "proj");
@@ -57,7 +58,6 @@ namespace pogl
             glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
 
             glUseProgram(0);
-
         }
     }
 } // namespace pogl
