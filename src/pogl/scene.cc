@@ -71,6 +71,17 @@ namespace pogl
 
     void run_opengl()
     {
+        glutSpecialFunc(
+            [](int key, int x, int y)
+            {
+                switch (key)
+                {
+                case GLUT_KEY_F5:
+                    set_current_scene(load_scene("scene.json"));
+                    break;
+                };
+            }
+        );
         glutDisplayFunc(
             []()
             {
