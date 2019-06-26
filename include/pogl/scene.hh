@@ -7,8 +7,6 @@
 #include <pogl/camera.hh>
 #include <pogl/object.hh>
 
-#include <GL/glew.h>
-
 namespace fs = std::filesystem;
 
 namespace pogl
@@ -25,10 +23,12 @@ namespace pogl
 
     class Scene
     {
-        friend void set_current_scene(scene_ptr_t);
-        friend void run_opengl();
+        using data_type = std::list<Object>;
 
     public:
+        using const_iterator = data_type::const_iterator;
+        using iterator = data_type::iterator;
+
         Scene() = default;
         Scene(SceneSettings&& settings);
         Scene(const Scene&) = delete;
@@ -42,16 +42,17 @@ namespace pogl
 
         const Camera& get_camera() const noexcept;
 
-    private:
-        static inline scene_ptr_t current_scene = nullptr;
+        const_iterator begin() const;
+        const_iterator end() const;
+        iterator begin();
+        iterator end();
 
+    private:
         SceneSettings settings_;
-        std::list<Object> objects_;
+        data_type objects_;
     };
 
     scene_ptr_t load_scene(const fs::path& scene_path);
-    void set_current_scene(scene_ptr_t scene);
-    void run_opengl();
 } // namespace pogl
 
 #include <pogl/scene.hxx>

@@ -2,6 +2,7 @@
 
 #include <pogl/camera.hh>
 #include <pogl/context.hh>
+#include <pogl/engine.hh>
 #include <pogl/object.hh>
 #include <pogl/program.hh>
 #include <pogl/scene.hh>

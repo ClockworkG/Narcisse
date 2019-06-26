@@ -1,9 +1,6 @@
 #include <spdlog/spdlog.h>
 #include <pogl/pogl.hh>
 
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
-
 int main(int argc, char** argv)
 {
     if (!pogl::init_glut_context(pogl::GlutContextArguments(argc, argv)))
@@ -12,9 +9,10 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    pogl::scene_ptr_t scene = nullptr;
+
     try {
-        auto scene = pogl::load_scene("scene.json");
-        pogl::set_current_scene(scene);
+        scene = pogl::load_scene("scene.json");
     }
     catch (const std::runtime_error& err)
     {
@@ -22,7 +20,9 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    pogl::run_opengl();
+    auto engine = pogl::Engine::get_instance();
+    engine->set_current_scene(scene);
+    engine->run();
 
     return EXIT_SUCCESS;
 }
