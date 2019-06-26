@@ -4,6 +4,11 @@
 
 namespace pogl
 {
+    struct RenderContext
+    {
+        const Camera& camera;
+    };
+
     class Engine
     {
     public:

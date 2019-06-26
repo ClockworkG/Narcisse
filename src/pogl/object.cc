@@ -1,4 +1,5 @@
 #include <pogl/object.hh>
+#include <pogl/engine.hh>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace pogl
@@ -50,10 +51,12 @@ namespace pogl
         return *this;
     }
 
-    void Object::display(const Camera& cam) const
+    void Object::render(const RenderContext& context) const
     {
         if (shader_ != nullptr)
         {
+            const auto& cam = context.camera;
+
             glUseProgram(*shader_);
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

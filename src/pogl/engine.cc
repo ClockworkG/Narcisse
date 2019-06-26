@@ -21,11 +21,14 @@ namespace pogl
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        const auto& cam = current_scene_->get_camera();
+        auto context = RenderContext
+        {
+            current_scene_->get_camera()
+        };
 
         // Render frame
         for (const auto& object : *current_scene_)
-            object.display(cam);
+            object.render(context);
 
         glutSwapBuffers();
         glutPostRedisplay();

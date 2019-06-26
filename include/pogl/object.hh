@@ -9,6 +9,8 @@
 
 namespace pogl
 {
+    struct RenderContext;
+
     using program_ptr_t = std::shared_ptr<pogl::Program>;
 
     constexpr GLuint INVALID_VAO = 0;
@@ -25,7 +27,7 @@ namespace pogl
         Object(const Object&) = delete;
         Object& operator=(const Object&) = delete;
 
-        void display(const Camera& cam) const;
+        void render(const RenderContext& context) const;
 
         void set_position(glm::vec3&& position);
         void set_rotation(glm::vec3&& rotation);

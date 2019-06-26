@@ -22,15 +22,6 @@ namespace pogl
         objects_.push_back(std::move(object));
     }
 
-    void Scene::display()
-    {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        for (const auto& obj : objects_)
-            obj.display(settings_.camera);
-
-    }
-
     scene_ptr_t load_scene(const fs::path& scene_path)
     {
         std::ifstream is{scene_path};

@@ -23,8 +23,8 @@ namespace pogl
 
     struct GlutWindowSize
     {
-        unsigned short width = 1024;
-        unsigned short height = 1024;
+        unsigned short width = 1920;
+        unsigned short height = 1080;
     };
 
     struct GlutContextArguments
