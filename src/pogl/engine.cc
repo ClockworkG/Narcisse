@@ -26,7 +26,7 @@ namespace pogl
         const auto& reflecting = current_scene_->get_reflecting();
         const auto& camera = current_scene_->get_camera();
 
-        auto context = RenderContext
+        auto mirror_context = RenderContext
         {
             reflecting.mirror_camera(camera),
             nullptr
@@ -35,8 +35,17 @@ namespace pogl
         for (const auto& object : *current_scene_)
         {
             if (&object != reflecting.get_object())
-                object.render(context);
+                object.render(mirror_context);
         }
+
+        auto render_context = RenderContext
+        {
+            camera,
+            nullptr
+        };
+
+        for (const auto& object : *current_scene_)
+            object.render(render_context);
 
         glutSwapBuffers();
         glutPostRedisplay();
