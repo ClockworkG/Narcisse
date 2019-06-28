@@ -12,14 +12,18 @@ namespace pogl
 {
     Scene::Scene(SceneSettings&& settings)
         : settings_(std::move(settings))
+        , reflecting_{}
     {
         const auto& background = settings_.background;
         glClearColor(background.x, background.y, background.z, 1.0);
     }
 
-    void Scene::add_object(Object&& object)
+    void Scene::add_object(Object&& object, bool reflecting)
     {
         objects_.push_back(std::move(object));
+
+        if (reflecting)
+            reflecting_.set_object(&objects_.back());
     }
 
     scene_ptr_t load_scene(const fs::path& scene_path)
@@ -48,6 +52,9 @@ namespace pogl
             for (const auto& obj : json_handler["scene"]["objects"])
                 scene->add_object(detail::read_scene<Object>(obj));
         }
+
+        if (json_handler["scene"].contains("reflecting"))
+            scene->add_object(detail::read_scene<Object>(json_handler["scene"]["reflecting"]), true);
 
         return scene;
     }

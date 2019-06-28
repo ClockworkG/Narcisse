@@ -13,4 +13,9 @@ namespace pogl
     {
         return projection_;
     }
+
+    inline const glm::vec3& Camera::get_position() const noexcept
+    {
+        return settings_.position;
+    }
 } // namespace pogl

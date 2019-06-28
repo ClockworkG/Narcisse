@@ -26,4 +26,14 @@ namespace pogl
     {
         return std::end(objects_);
     }
+
+    inline const Reflecting& Scene::get_reflecting() const noexcept
+    {
+        return reflecting_;
+    }
+
+    inline Reflecting& Scene::get_reflecting() noexcept
+    {
+        return reflecting_;
+    }
 } // namespace pogl

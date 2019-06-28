@@ -16,4 +16,9 @@ namespace pogl
     {
         scale_ = scale;
     }
+
+    inline const glm::vec3& Object::get_position() const
+    {
+        return position_;
+    }
 } // namespace pogl

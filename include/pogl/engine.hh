@@ -4,9 +4,12 @@
 
 namespace pogl
 {
+    class RenderTarget;
+
     struct RenderContext
     {
         const Camera& camera;
+        RenderTarget* target;
     };
 
     class Engine

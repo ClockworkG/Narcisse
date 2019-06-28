@@ -6,6 +6,7 @@
 
 #include <pogl/camera.hh>
 #include <pogl/object.hh>
+#include <pogl/reflecting.hh>
 
 namespace fs = std::filesystem;
 
@@ -23,11 +24,12 @@ namespace pogl
 
     class Scene
     {
-        using data_type = std::list<Object>;
+        template <typename T>
+        using data_type = std::list<T>;
 
     public:
-        using const_iterator = data_type::const_iterator;
-        using iterator = data_type::iterator;
+        using const_iterator = data_type<Object>::const_iterator;
+        using iterator = data_type<Object>::iterator;
 
         Scene() = default;
         Scene(SceneSettings&& settings);
@@ -37,10 +39,13 @@ namespace pogl
         Scene& operator=(Scene&&) = delete;
 
         void display();
-        void add_object(Object&& object);
+        void add_object(Object&& object, bool reflecting = false);
         void mouse_move(int x, int y);
 
         const Camera& get_camera() const noexcept;
+
+        const Reflecting& get_reflecting() const noexcept;
+        Reflecting& get_reflecting() noexcept;
 
         const_iterator begin() const;
         const_iterator end() const;
@@ -49,7 +54,8 @@ namespace pogl
 
     private:
         SceneSettings settings_;
-        data_type objects_;
+        data_type<Object> objects_;
+        Reflecting reflecting_;
     };
 
     scene_ptr_t load_scene(const fs::path& scene_path);

@@ -33,6 +33,8 @@ namespace pogl
         void set_rotation(glm::vec3&& rotation);
         void set_scale(glm::vec3&& scale);
 
+        const glm::vec3& get_position() const;
+
     private:
         GLuint vao_id_ = INVALID_VAO;
         vbo_vec3_t vertices_;
