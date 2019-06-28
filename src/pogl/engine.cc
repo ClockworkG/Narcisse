@@ -3,17 +3,28 @@
 
 #include <GL/freeglut.h>
 
+#include <iostream>
+
 namespace pogl
 {
     Engine::Engine()
+        : current_scene_(nullptr)
+        , mirror_target_{}
+        , mirror_texture_(Texture::Dimension{500, 500})
+        , depth_buffer_(500, 500)
     {
-        glutIdleFunc(glutPostRedisplay);
+        //glutIdleFunc(glutPostRedisplay);
         glutDisplayFunc([]()
                 {
                     Engine* engine = Engine::get_instance();
                     engine->render();
                 }
         );
+
+        glBindFramebuffer(GL_FRAMEBUFFER, mirror_target_);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_);
+        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mirror_texture_, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, INVALID_FRAME_BUFFER);
     }
 
     void Engine::render()
@@ -29,7 +40,7 @@ namespace pogl
         auto mirror_context = RenderContext
         {
             reflecting.mirror_camera(camera),
-            nullptr
+            &mirror_target_
         };
 
         for (const auto& object : *current_scene_)
@@ -48,7 +59,6 @@ namespace pogl
             object.render(render_context);
 
         glutSwapBuffers();
-        glutPostRedisplay();
     }
 
     void Engine::run()

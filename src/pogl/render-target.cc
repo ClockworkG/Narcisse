@@ -7,7 +7,6 @@ namespace pogl
     RenderTarget::RenderTarget()
     {
         glGenFramebuffers(1, &buffer_id_);
-        glBindFramebuffer(GL_FRAMEBUFFER, buffer_id_);
     }
 
     RenderTarget::~RenderTarget()

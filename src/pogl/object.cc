@@ -61,9 +61,7 @@ namespace pogl
             glUseProgram(*shader_);
 
             if (context.target)
-            {
                 glBindFramebuffer(GL_FRAMEBUFFER, *context.target);
-            }
             else
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

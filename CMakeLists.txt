@@ -36,8 +36,10 @@ target_sources(pogl
                        ${SOURCE_DIR}/pogl/scene.cc
                        ${SOURCE_DIR}/pogl/engine.cc
                        ${SOURCE_DIR}/pogl/render-target.cc
+                       ${SOURCE_DIR}/pogl/render-buffer.cc
                        ${SOURCE_DIR}/pogl/reflecting.cc
                        ${SOURCE_DIR}/pogl/mesh.cc
+                       ${SOURCE_DIR}/pogl/texture.cc
                        ${SOURCE_DIR}/pogl/vertex-attrib-pointer.cc
                        ${SOURCE_DIR}/pogl/camera.cc
                        ${SOURCE_DIR}/pogl/object.cc
