@@ -7,6 +7,11 @@ namespace pogl
         return settings_.camera;
     }
 
+    inline Camera& Scene::get_camera() noexcept
+    {
+        return settings_.camera;
+    }
+
     inline auto Scene::begin() const -> const_iterator
     {
         return std::begin(objects_);

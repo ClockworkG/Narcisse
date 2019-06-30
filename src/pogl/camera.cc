@@ -25,6 +25,12 @@ namespace pogl
         );
     }
 
+    void Camera::set_position(const glm::vec3& vec)
+    {
+        settings_.position = vec;
+        compute();
+    }
+
     void Camera::translate(const glm::vec3& vec)
     {
         settings_.position += vec;

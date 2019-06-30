@@ -19,6 +19,7 @@ namespace pogl
         void run();
         void set_current_scene(scene_ptr_t scene);
         void render();
+        void update(float elapsed);
 
         static Engine* get_instance();
 

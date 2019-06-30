@@ -43,6 +43,7 @@ namespace pogl
         void mouse_move(int x, int y);
 
         const Camera& get_camera() const noexcept;
+        Camera& get_camera() noexcept;
 
         const Reflecting& get_reflecting() const noexcept;
         Reflecting& get_reflecting() noexcept;

@@ -31,6 +31,8 @@ namespace pogl
         const glm::mat4& get_projection() const noexcept;
         const glm::vec3& get_position() const noexcept;
 
+        void set_position(const glm::vec3& vec);
+
         void translate(const glm::vec3& vec);
         void look(const glm::vec3& vec);
 
