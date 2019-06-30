@@ -13,6 +13,10 @@ namespace pogl
         , mirror_texture_(Texture::Dimension{500, 500})
         , depth_buffer_(500, 500)
     {
+        glBindFramebuffer(GL_FRAMEBUFFER, mirror_target_);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_);
+        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mirror_texture_, 0);
+
         glutIdleFunc(glutPostRedisplay);
         glutDisplayFunc([]()
                 {
@@ -20,10 +24,14 @@ namespace pogl
                     engine->render();
                 }
         );
+        glViewport(0, 0, 500, 500);
     }
 
     void Engine::render()
     {
+        static GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
+        glDrawBuffers(1, DrawBuffers);
+
         if (current_scene_ == nullptr)
             return;
 
@@ -51,7 +59,12 @@ namespace pogl
         };
 
         for (const auto& object : *current_scene_)
-            object.render(render_context);
+        {
+            if (&object != reflecting.get_object())
+                object.render(render_context);
+        }
+
+        reflecting.get_object()->render(render_context, mirror_texture_);
 
         glutSwapBuffers();
     }

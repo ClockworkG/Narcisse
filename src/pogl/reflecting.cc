@@ -11,8 +11,8 @@ namespace pogl
         {
             object_->get_position(),
             camera.get_position(),
-            glm::vec3(0.0f, -1.0f, 0.0f),
-            100.f,
+            glm::vec3(0.0f, 1.0f, 0.0f),
+            140.f,
             1.f,
             0.1f,
             100.f

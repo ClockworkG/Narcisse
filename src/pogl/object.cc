@@ -65,6 +65,11 @@ namespace pogl
 
     void Object::render(const RenderContext& context) const
     {
+        render(context, texture_);
+    }
+
+    void Object::render(const RenderContext& context, const Texture& tex) const
+    {
         if (shader_ != nullptr)
         {
             const auto& cam = context.camera;
@@ -89,7 +94,7 @@ namespace pogl
             glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
 
             const auto tex_loc = glGetUniformLocation(*shader_, "texture_sampler");
-            glUniform1i(tex_loc, texture_.get_unit() - GL_TEXTURE0);
+            glUniform1i(tex_loc, tex.get_unit() - GL_TEXTURE0);
 
             glBindVertexArray(vao_id_);
             glDrawArrays(GL_TRIANGLES, 0, vertices_.size());

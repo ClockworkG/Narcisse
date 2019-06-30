@@ -31,6 +31,7 @@ namespace pogl
         Object& operator=(const Object&) = delete;
 
         void render(const RenderContext& context) const;
+        void render(const RenderContext& context, const Texture& texture) const;
 
         void set_position(glm::vec3&& position);
         void set_rotation(glm::vec3&& rotation);
