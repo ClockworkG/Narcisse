@@ -43,7 +43,9 @@ target_sources(pogl
                        ${SOURCE_DIR}/pogl/vertex-attrib-pointer.cc
                        ${SOURCE_DIR}/pogl/camera.cc
                        ${SOURCE_DIR}/pogl/object.cc
-                       ${SOURCE_DIR}/pogl/detail/shader-source.cc)
+                       ${SOURCE_DIR}/pogl/detail/shader-source.cc
+                       ${SOURCE_DIR}/pogl/legacy/image.cpp
+                       ${SOURCE_DIR}/pogl/legacy/image_io.cpp)
 target_include_directories(pogl PUBLIC ${INCLUDE_DIR})
 target_link_libraries(pogl ${GL_LIBS} stdc++fs nlohmann_json tinyobjloader)
 set_target_properties(pogl PROPERTIES CXX_STANDARD 17)

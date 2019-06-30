@@ -6,6 +6,8 @@
 #include <pogl/program.hh>
 #include <pogl/camera.hh>
 #include <pogl/vbo.hh>
+#include <pogl/legacy/image.hh>
+#include <pogl/texture.hh>
 
 namespace pogl
 {
@@ -19,7 +21,8 @@ namespace pogl
     {
     public:
         Object(const Mesh& mesh,
-               program_ptr_t shader);
+               program_ptr_t shader,
+               tifo::rgb24_image&& texture);
         ~Object();
         Object(Object&&);
         Object& operator=(Object&&);
@@ -39,7 +42,10 @@ namespace pogl
         GLuint vao_id_ = INVALID_VAO;
         vbo_vec3_t vertices_;
         vbo_vec3_t normals_;
+        vbo_vec2_t uv_;
         program_ptr_t shader_;
+        tifo::rgb24_image texture_data_;
+        Texture texture_;
 
         glm::vec3 position_;
         glm::vec3 rotation_;

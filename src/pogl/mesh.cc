@@ -41,6 +41,10 @@ namespace pogl
                         attrib.normals[3 * idx.normal_index + 1],
                         attrib.normals[3 * idx.normal_index + 2]
                     );
+                    mesh.uv.emplace_back(
+                        attrib.texcoords[2 * idx.texcoord_index + 0],
+                        attrib.texcoords[2 * idx.texcoord_index + 1]
+                    );
                 }
                 index_offset += fv;
             }

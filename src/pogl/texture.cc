@@ -1,22 +1,25 @@
 #include <pogl/texture.hh>
+#include <stdexcept>
 #include <utility>
 
 namespace pogl
 {
-    Texture::Texture(const Dimension& dim)
+    Texture::Texture(const Dimension& dim, uint8_t* pixels)
         : dimension_(dim)
+        , unit_(texture_unit_++)
     {
         glGenTextures(1, &texture_id_);
-
+        glActiveTexture(unit_);
         glBindTexture(GL_TEXTURE_2D, texture_id_);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                      dimension_.width, dimension_.height, 0, GL_RGB,
-                     GL_UNSIGNED_BYTE, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                     GL_UNSIGNED_BYTE, pixels);
 
-        glBindTexture(GL_TEXTURE_2D, INVALID_TEXTURE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
 
     Texture::~Texture()
@@ -31,6 +34,7 @@ namespace pogl
     Texture::Texture(Texture&& other)
         : dimension_(std::move(other.dimension_))
         , texture_id_(std::exchange(other.texture_id_, INVALID_TEXTURE))
+        , unit_(std::move(other.unit_))
     {}
 
     Texture& Texture::operator=(Texture&& other)
@@ -40,6 +44,7 @@ namespace pogl
 
         texture_id_ = std::exchange(other.texture_id_, INVALID_TEXTURE);
         dimension_ = std::move(other.dimension_);
+        unit_ = std::move(other.unit_);
 
         return *this;
     }
@@ -47,5 +52,10 @@ namespace pogl
     Texture::operator GLuint() const noexcept
     {
         return texture_id_;
+    }
+
+    GLuint Texture::get_unit() const noexcept
+    {
+        return unit_;
     }
 } // namespace pogl

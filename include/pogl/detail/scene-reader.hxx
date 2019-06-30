@@ -2,6 +2,7 @@
 
 #include <boost/hana.hpp>
 #include <pogl/detail/meta.hh>
+#include <pogl/legacy/image_io.hh>
 
 namespace hana = boost::hana;
 
@@ -52,13 +53,16 @@ namespace pogl::detail
     template<>
     Object read_scene<Object>(const json& scene)
     {
+        std::string texture_path = scene["texture"];
         auto shader_name = scene["shader"];
         auto position = read_scene<glm::vec3>(scene["position"]);
         auto rotation = read_scene<glm::vec3>(scene["rotation"]);
         auto scale = read_scene<glm::vec3>(scene["scale"]);
+        auto texture = tifo::load_image(texture_path.c_str());
 
         auto object = Object(make_mesh(scene["mesh"]),
-                             get_shader(shader_name));
+                             get_shader(shader_name),
+                             std::move(texture));
 
         object.set_position(std::move(position));
         object.set_rotation(std::move(rotation));

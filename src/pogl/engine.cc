@@ -13,18 +13,13 @@ namespace pogl
         , mirror_texture_(Texture::Dimension{500, 500})
         , depth_buffer_(500, 500)
     {
-        //glutIdleFunc(glutPostRedisplay);
+        glutIdleFunc(glutPostRedisplay);
         glutDisplayFunc([]()
                 {
                     Engine* engine = Engine::get_instance();
                     engine->render();
                 }
         );
-
-        glBindFramebuffer(GL_FRAMEBUFFER, mirror_target_);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_);
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mirror_texture_, 0);
-        glBindFramebuffer(GL_FRAMEBUFFER, INVALID_FRAME_BUFFER);
     }
 
     void Engine::render()

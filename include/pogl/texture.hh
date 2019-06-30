@@ -15,7 +15,7 @@ namespace pogl
             unsigned int height;
         };
 
-        Texture(const Dimension& dim);
+        Texture(const Dimension& dim, uint8_t* pixels = NULL);
         ~Texture();
         Texture(Texture&& other);
         Texture& operator=(Texture&& other);
@@ -25,8 +25,13 @@ namespace pogl
 
         operator GLuint() const noexcept;
 
+        GLuint get_unit() const noexcept;
+
     private:
+        static inline GLuint texture_unit_ = GL_TEXTURE0;
+
         Dimension dimension_;
         GLuint texture_id_;
+        GLuint unit_;
     };
 } // namespace pogl

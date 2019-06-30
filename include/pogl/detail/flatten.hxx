@@ -37,4 +37,22 @@ namespace pogl::detail
             out_begin += 3;
         }
     }
+
+    template<>
+    inline std::size_t FlattenPolicy<glm::vec2>::size()
+    {
+        return 2;
+    }
+
+    template<>
+    template <typename InIt, typename OutIt>
+    inline void FlattenPolicy<glm::vec2>::copy(InIt in_begin, InIt in_end, OutIt out_begin)
+    {
+        for (auto it = in_begin; it != in_end; it++)
+        {
+            *out_begin = (*it)[0];
+            *(out_begin + 1) = (*it)[1];
+            out_begin += 2;
+        }
+    }
 } // namespace pogl::detail

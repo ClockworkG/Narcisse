@@ -62,6 +62,7 @@ namespace pogl
     };
 
     using vbo_vec3_t = VBO<float, 3>;
+    using vbo_vec2_t = VBO<float, 2>;
 } // namespace pogl
 
 #include <pogl/vbo.hxx>
