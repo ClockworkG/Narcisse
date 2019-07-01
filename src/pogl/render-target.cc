@@ -36,4 +36,20 @@ namespace pogl
     {
         return buffer_id_;
     }
+
+    void RenderTarget::set_depthbuffer(const RenderBuffer& buffer)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, buffer_id_);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,
+                                  GL_DEPTH_ATTACHMENT,
+                                  GL_RENDERBUFFER, buffer);
+    }
+
+    void RenderTarget::set_texture(const Texture& texture)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, buffer_id_);
+        glFramebufferTexture(GL_FRAMEBUFFER,
+                             GL_COLOR_ATTACHMENT0,
+                             texture, 0);
+    }
 } // namespace pogl

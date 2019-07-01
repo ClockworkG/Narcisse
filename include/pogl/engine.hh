@@ -26,11 +26,9 @@ namespace pogl
     private:
         Engine();
 
-        scene_ptr_t current_scene_ = nullptr;
+        void prerender_reflection();
 
-        RenderTarget mirror_target_;
-        Texture mirror_texture_;
-        RenderBuffer depth_buffer_;
+        scene_ptr_t current_scene_ = nullptr;
     };
 } // namespace pogl
 

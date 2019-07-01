@@ -11,14 +11,7 @@ namespace pogl
 {
     Engine::Engine()
         : current_scene_(nullptr)
-        , mirror_target_{}
-        , mirror_texture_(Texture::Dimension{500, 500})
-        , depth_buffer_(500, 500)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, mirror_target_);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer_);
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mirror_texture_, 0);
-
         glutDisplayFunc([]()
                 {
                     Engine* engine = Engine::get_instance();
@@ -55,56 +48,78 @@ namespace pogl
         glutPostRedisplay();
     }
 
-    void Engine::render()
+    void Engine::prerender_reflection()
     {
         static GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-        glDrawBuffers(1, DrawBuffers);
+        static std::map<std::string, glm::vec3> directions
+        {
+            {"top", glm::vec3(0, 1, 0)},
+            {"bottom", glm::vec3(0, -1, 0)},
+            {"right", glm::vec3(1, 0, 0)},
+            {"left", glm::vec3(-1, 0, 0)},
+            {"front", glm::vec3(0, 0, 1)},
+            {"back", glm::vec3(0, 0, -1)},
+        };
 
+        RenderTarget target;
+
+        for (const auto& [name, dir] : directions)
+        {
+            RenderBuffer depth_buffer(500, 500);
+            Texture texture(Texture::Dimension{500, 500});
+
+            target.set_depthbuffer(depth_buffer);
+            target.set_texture(texture);
+
+            glDrawBuffers(1, DrawBuffers);
+
+            glBindFramebuffer(GL_FRAMEBUFFER, target);
+            glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            auto reflecting = current_scene_->get_reflecting();
+            auto render_context = RenderContext
+            {
+                reflecting.mirror_camera(dir),
+                    &target
+            };
+
+            for (const auto& object : *current_scene_)
+            {
+                if (&object == reflecting.get_object())
+                    continue;
+
+                object.render(render_context);
+            }
+
+            texture.save((std::string(name) + ".tga").c_str());
+        }
+    }
+
+    void Engine::render()
+    {
         if (current_scene_ == nullptr)
             return;
 
-        glBindFramebuffer(GL_FRAMEBUFFER, mirror_target_);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        const auto& reflecting = current_scene_->get_reflecting();
-        const auto& camera = current_scene_->get_camera();
-
-        auto mirror_context = RenderContext
-        {
-            reflecting.mirror_camera(camera),
-            &mirror_target_
-        };
-
-        for (const auto& object : *current_scene_)
-        {
-            if (&object != reflecting.get_object())
-                object.render(mirror_context);
-        }
-
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearColor(0.12f, 0.50f, 0.57f, 1.f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         auto render_context = RenderContext
         {
-            camera,
+            current_scene_->get_camera(),
             nullptr
         };
 
         for (const auto& object : *current_scene_)
-        {
-            if (&object != reflecting.get_object())
-                object.render(render_context);
-        }
-
-        reflecting.get_object()->render(render_context, mirror_texture_);
+            object.render(render_context);
 
         glutSwapBuffers();
     }
 
     void Engine::run()
     {
+        prerender_reflection();
         glutMainLoop();
     }
 } // namespace pogl

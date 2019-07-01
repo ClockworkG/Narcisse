@@ -17,7 +17,7 @@ namespace pogl
         void set_object(Object* object);
         Object* get_object() const;
 
-        Camera mirror_camera(const Camera& camera) const;
+        Camera mirror_camera(const glm::vec3& vec) const;
 
     private:
         Object* object_ = nullptr;

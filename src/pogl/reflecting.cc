@@ -2,17 +2,14 @@
 
 namespace pogl
 {
-    Camera Reflecting::mirror_camera(const Camera& camera) const
+    Camera Reflecting::mirror_camera(const glm::vec3& vec) const
     {
-        if (object_ == nullptr)
-            return camera;
-
         CameraSettings settings
         {
             object_->get_position(),
-            camera.get_position(),
+            vec,
             glm::vec3(0.0f, 1.0f, 0.0f),
-            140.f,
+            60.f,
             1.f,
             0.1f,
             100.f

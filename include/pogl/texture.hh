@@ -15,6 +15,7 @@ namespace pogl
             unsigned int height;
         };
 
+        Texture() = default;
         Texture(const Dimension& dim, uint8_t* pixels = NULL);
         ~Texture();
         Texture(Texture&& other);
@@ -27,11 +28,13 @@ namespace pogl
 
         GLuint get_unit() const noexcept;
 
+        bool save(const char* filename) const;
+
     private:
         static inline GLuint texture_unit_ = GL_TEXTURE0;
 
-        Dimension dimension_;
-        GLuint texture_id_;
-        GLuint unit_;
+        Dimension dimension_ = Dimension{0, 0};
+        GLuint texture_id_ = INVALID_TEXTURE;
+        GLuint unit_ = GL_TEXTURE0;
     };
 } // namespace pogl
