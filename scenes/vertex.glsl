@@ -2,11 +2,18 @@
 
 in vec3 position;
 in vec3 normal;
-out vec3 normal_vector;
+in vec2 uv_map;
 
-uniform mat4 mvp;
+out vec3 normal_vector;
+out vec2 uv_vector;
+
+uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 
 void main () {
-  gl_Position = mvp * vec4(position, 1.0);
   normal_vector = normalize(normal);
+  uv_vector = uv_map;
+
+  gl_Position = projection * view * model * vec4(position, 1.0);
 }

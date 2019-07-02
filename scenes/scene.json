@@ -1,47 +1,61 @@
 {
     "shaders": {
-        "default": ["vertex.glsl", "fragment.glsl"]
+        "default": ["vertex.glsl", "fragment.glsl"],
+        "floor": ["vertex.glsl", "floor.glsl"],
+        "reflect": ["reflection_vert.glsl", "reflection_frag.glsl"]
     },
     "scene": {
         "camera": {
-            "position": [2, 5, -3],
-            "target": [0, 0, 5],
+            "position": [-3, 6.5, -10],
+            "target": [0, 0, 0],
             "up": [0, 1, 0],
             "fov": 60,
             "ratio": 1.77,
             "z_near": 0.1,
             "z_far": 100.0
         },
-        "background": [0, 0, 0],
+        "background": [0.1, 0.1, 0.1],
         "objects": [
             {
                 "shader": "default",
-                "mesh": "sandwich.obj",
-                "position": [0, 0, 5],
-                "rotation": [0, 1.15, 0],
-                "scale": [1, 1, 1]
+                "mesh": "cube.obj",
+                "position": [5, -1, 0],
+                "rotation": [0, 0, 0],
+                "scale": [2, 1, 2],
+                "texture": "crate.tga"
             },
             {
                 "shader": "default",
-                "mesh": "sandwich.obj",
-                "position": [-2, 0, 5],
-                "rotation": [0, 1.67, 0],
-                "scale": [1, 1, 1]
+                "mesh": "cube.obj",
+                "position": [-5, -1, 0],
+                "rotation": [0, 0, 0],
+                "scale": [1, 1, 1],
+                "texture": "wood.tga"
             },
             {
                 "shader": "default",
-                "mesh": "sandwich.obj",
-                "position": [2, 0, 5],
-                "rotation": [0, 2, 0],
-                "scale": [1, 1, 1]
+                "mesh": "cube.obj",
+                "position": [0, -1, 5],
+                "rotation": [0, 1, 0],
+                "scale": [3, 1, 0.4],
+                "texture": "board.tga"
             },
             {
-                "shader": "default",
-                "mesh": "sandwich.obj",
-                "position": [3.5, 0, 3],
-                "rotation": [0, 2.4, 0],
-                "scale": [1, 1, 1]
+                "shader": "floor",
+                "mesh": "plane.obj",
+                "position": [0, -2, 0],
+                "rotation": [0, 0, 0],
+                "scale": [10, 1, 10],
+                "texture": "board.tga"
             }
-        ]
+        ],
+        "reflecting": {
+            "shader": "reflect",
+            "mesh": "sphere.obj",
+            "position": [0, 0, 0],
+            "rotation": [0, 0, 0],
+            "scale": [2, 2, 2],
+            "texture": "board.tga"
+        }
     }
 }
