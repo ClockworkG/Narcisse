@@ -4,6 +4,7 @@
 #include <pogl/render-target.hh>
 #include <pogl/render-buffer.hh>
 #include <pogl/texture.hh>
+#include <pogl/cube-map.hh>
 
 namespace pogl
 {
@@ -29,6 +30,7 @@ namespace pogl
         void prerender_reflection();
 
         scene_ptr_t current_scene_ = nullptr;
+        CubeMap reflection_map_;
     };
 } // namespace pogl
 

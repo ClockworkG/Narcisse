@@ -1,5 +1,6 @@
 #include <pogl/engine.hh>
 #include <pogl/render-target.hh>
+#include <pogl/cube-map.hh>
 
 #include <GL/freeglut.h>
 
@@ -51,18 +52,20 @@ namespace pogl
     void Engine::prerender_reflection()
     {
         static GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-        static std::map<std::string, glm::vec3> directions
+        static std::vector<std::pair<std::string, glm::vec3>> directions
         {
-            {"top", glm::vec3(0, 1, 0)},
-            {"bottom", glm::vec3(0, -1, 0)},
             {"right", glm::vec3(1, 0, 0)},
             {"left", glm::vec3(-1, 0, 0)},
+            {"top", glm::vec3(0, 1, 0)},
+            {"bottom", glm::vec3(0, -1, 0)},
             {"front", glm::vec3(0, 0, 1)},
             {"back", glm::vec3(0, 0, -1)},
         };
 
         RenderTarget target;
 
+        CubeMap::textures_t faces;
+        std::size_t index = 0;
         for (const auto& [name, dir] : directions)
         {
             RenderBuffer depth_buffer(500, 500);
@@ -81,7 +84,7 @@ namespace pogl
             auto render_context = RenderContext
             {
                 reflecting.mirror_camera(dir),
-                    &target
+                &target
             };
 
             for (const auto& object : *current_scene_)
@@ -93,7 +96,11 @@ namespace pogl
             }
 
             texture.save((std::string(name) + ".tga").c_str());
+            faces[index] = std::move(texture);
+            index++;
         }
+
+        reflection_map_ = CubeMap(faces);
     }
 
     void Engine::render()
@@ -111,8 +118,14 @@ namespace pogl
             nullptr
         };
 
+        auto reflecting = current_scene_->get_reflecting().get_object();
         for (const auto& object : *current_scene_)
-            object.render(render_context);
+        {
+            if (reflecting != &object)
+                object.render(render_context);
+            else
+                object.render(render_context, reflection_map_);
+        }
 
         glutSwapBuffers();
     }

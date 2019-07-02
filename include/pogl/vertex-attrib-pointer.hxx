@@ -9,10 +9,7 @@ namespace pogl
     VertexAttribPointer& VertexAttribPointer::operator=(const VBO& vbo)
     {
         if (location_ == INVALID_LOCATION)
-        {
-            using namespace std::string_literals;
-            throw std::runtime_error{"No variable `"s + name_ + "`"s};
-        }
+            return *this;
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glVertexAttribPointer(location_,

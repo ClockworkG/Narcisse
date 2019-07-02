@@ -8,6 +8,7 @@
 #include <pogl/vbo.hh>
 #include <pogl/legacy/image.hh>
 #include <pogl/texture.hh>
+#include <pogl/cube-map.hh>
 
 namespace pogl
 {
@@ -32,6 +33,7 @@ namespace pogl
 
         void render(const RenderContext& context) const;
         void render(const RenderContext& context, const Texture& texture) const;
+        void render(const RenderContext& context, const CubeMap& cube_map) const;
 
         void set_position(glm::vec3&& position);
         void set_rotation(glm::vec3&& rotation);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <pogl/legacy/image.hh>
 
 namespace pogl
 {
@@ -25,6 +26,7 @@ namespace pogl
         Texture& operator=(const Texture&) = delete;
 
         operator GLuint() const noexcept;
+        operator tifo::rgb24_image() const;
 
         GLuint get_unit() const noexcept;
 

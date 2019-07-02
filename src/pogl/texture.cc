@@ -55,6 +55,17 @@ namespace pogl
         return texture_id_;
     }
 
+    Texture::operator tifo::rgb24_image() const
+    {
+        GLubyte* pixels = new GLubyte[dimension_.width * dimension_.height * 3];
+        glReadPixels(0, 0, dimension_.width, dimension_.height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+        tifo::rgb24_image image(dimension_.width, dimension_.height);
+        image.pixels = pixels;
+
+        return image;
+    }
+
     GLuint Texture::get_unit() const noexcept
     {
         return unit_;
@@ -62,11 +73,7 @@ namespace pogl
 
     bool Texture::save(const char* filename) const
     {
-        GLubyte* pixels = new GLubyte[dimension_.width * dimension_.height * 3];
-        glReadPixels(0, 0, dimension_.width, dimension_.height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-        tifo::rgb24_image image(dimension_.width, dimension_.height);
-        image.pixels = pixels;
+        tifo::rgb24_image image = *this;
         return tifo::save_image(image, filename);
     }
 } // namespace pogl
