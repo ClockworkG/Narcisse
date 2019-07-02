@@ -11,9 +11,19 @@ namespace pogl
     class CubeMap
     {
     public:
+        enum class Face
+        {
+            RIGHT = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+            LEFT = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+            TOP = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+            BOTTOM = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+            BACK = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+            FRONT = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+        };
+
         using textures_t = std::array<Texture, 6>;
 
-        CubeMap() = default;
+        CubeMap();
         CubeMap(const textures_t& faces);
         ~CubeMap();
         CubeMap(CubeMap&& other);

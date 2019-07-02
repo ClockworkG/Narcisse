@@ -52,4 +52,13 @@ namespace pogl
                              GL_COLOR_ATTACHMENT0,
                              texture, 0);
     }
+
+    void RenderTarget::set_texture(const CubeMap& texture, GLuint face)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, buffer_id_);
+        glFramebufferTexture2D(GL_FRAMEBUFFER,
+                              GL_COLOR_ATTACHMENT0,
+                              face,
+                              texture, 0);
+    }
 } // namespace pogl

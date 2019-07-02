@@ -31,7 +31,6 @@ namespace pogl
                     engine->update(elapsed);
                 }
         );
-        glViewport(0, 0, 500, 500);
     }
 
     void Engine::update(float elapsed)
@@ -54,25 +53,25 @@ namespace pogl
         static GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
         static std::vector<std::pair<std::string, glm::vec3>> directions
         {
-            {"right", glm::vec3(1, 0, 0)},
             {"left", glm::vec3(-1, 0, 0)},
             {"top", glm::vec3(0, 1, 0)},
             {"bottom", glm::vec3(0, -1, 0)},
-            {"front", glm::vec3(0, 0, 1)},
             {"back", glm::vec3(0, 0, -1)},
+            {"front", glm::vec3(0, 0, 1)},
+            {"right", glm::vec3(1, 0, 0)},
         };
 
-        RenderTarget target;
+        CubeMap cube_map;
 
-        CubeMap::textures_t faces;
+        glViewport(0, 0, 1000, 1000);
         std::size_t index = 0;
         for (const auto& [name, dir] : directions)
         {
-            RenderBuffer depth_buffer(500, 500);
-            Texture texture(Texture::Dimension{500, 500});
+            RenderTarget target;
+            RenderBuffer depth_buffer(1000, 1000);
 
             target.set_depthbuffer(depth_buffer);
-            target.set_texture(texture);
+            target.set_texture(cube_map, GL_TEXTURE_CUBE_MAP_POSITIVE_X + index);
 
             glDrawBuffers(1, DrawBuffers);
 
@@ -94,13 +93,9 @@ namespace pogl
 
                 object.render(render_context);
             }
-
-            texture.save((std::string(name) + ".tga").c_str());
-            faces[index] = std::move(texture);
-            index++;
         }
 
-        reflection_map_ = CubeMap(faces);
+        reflection_map_ = std::move(cube_map);
     }
 
     void Engine::render()
