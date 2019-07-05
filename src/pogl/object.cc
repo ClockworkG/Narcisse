@@ -145,8 +145,6 @@ namespace pogl
             glUniform1i(refl, GL_TEXTURE6 - GL_TEXTURE0);
 
             glBindVertexArray(vao_id_);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_CUBE_MAP, cube_map);
             glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
 
             glUseProgram(0);

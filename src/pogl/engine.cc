@@ -1,6 +1,7 @@
 #include <pogl/engine.hh>
 #include <pogl/render-target.hh>
 #include <pogl/cube-map.hh>
+#include <pogl/legacy/image_io.hh>
 
 #include <GL/freeglut.h>
 
@@ -53,25 +54,25 @@ namespace pogl
         static GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
         static std::vector<std::pair<std::string, glm::vec3>> directions
         {
+            {"right", glm::vec3(1, 0, 0)},
             {"left", glm::vec3(-1, 0, 0)},
             {"top", glm::vec3(0, 1, 0)},
             {"bottom", glm::vec3(0, -1, 0)},
-            {"back", glm::vec3(0, 0, -1)},
             {"front", glm::vec3(0, 0, 1)},
-            {"right", glm::vec3(1, 0, 0)},
+            {"back", glm::vec3(0, 0, -1)},
         };
 
-        CubeMap cube_map;
-
-        glViewport(0, 0, 1000, 1000);
+        glViewport(0, 0, 2048, 2048);
         std::size_t index = 0;
+
+        RenderTarget target;
+        RenderBuffer depth_buffer(2048, 2048);
+
+        target.set_depthbuffer(depth_buffer);
+
         for (const auto& [name, dir] : directions)
         {
-            RenderTarget target;
-            RenderBuffer depth_buffer(1000, 1000);
-
-            target.set_depthbuffer(depth_buffer);
-            target.set_texture(cube_map, GL_TEXTURE_CUBE_MAP_POSITIVE_X + index);
+            target.set_texture(reflection_map_, GL_TEXTURE_CUBE_MAP_POSITIVE_X + index);
 
             glDrawBuffers(1, DrawBuffers);
 
@@ -93,9 +94,9 @@ namespace pogl
 
                 object.render(render_context);
             }
-        }
 
-        reflection_map_ = std::move(cube_map);
+            index++;
+        }
     }
 
     void Engine::render()

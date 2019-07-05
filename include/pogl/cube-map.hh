@@ -34,6 +34,8 @@ namespace pogl
 
         operator GLuint() const noexcept;
 
+        void save(const std::string& name) const;
+
     private:
         GLuint cube_map_id_ = INVALID_CUBE_MAP_ID;
     };
