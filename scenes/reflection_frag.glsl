@@ -11,6 +11,5 @@ uniform samplerCube reflectionMap;
 void main() {
     vec3 incident = normalize(fPosition - cameraPos);
     vec3 reflected = reflect(incident, fNormal);
-    //outColor = vec4(texture(reflectionMap, reflected).rgb, 1.0);
-    outColor = vec4(texture(reflectionMap, fPosition).rgb, 1.0);
+    outColor = vec4(texture(reflectionMap, normalize(reflected)).rgb, 1.0);
 }

@@ -39,8 +39,8 @@ namespace pogl
         static float total_time = 0;
         total_time += elapsed;
 
-        float dx = cos(total_time);
-        float dz = sin(total_time);
+        float dx = cos(total_time * 0.5);
+        float dz = sin(total_time * 0.5);
         auto pos = current_scene_->get_camera().get_position();
         current_scene_->get_camera().set_position(
                 glm::vec3(15 * dx, pos.y, 15 * dz)
