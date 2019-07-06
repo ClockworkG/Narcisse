@@ -12,6 +12,7 @@ namespace pogl
     {
         const Camera& camera;
         RenderTarget* target;
+        float time = 0.f;
     };
 
     class Engine
@@ -31,6 +32,7 @@ namespace pogl
 
         scene_ptr_t current_scene_ = nullptr;
         CubeMap reflection_map_;
+        float total_time_ = 0.f;
     };
 } // namespace pogl
 

@@ -13,6 +13,7 @@ namespace pogl
 {
     Engine::Engine()
         : current_scene_(nullptr)
+        , total_time_(0.f)
     {
         glutDisplayFunc([]()
                 {
@@ -36,11 +37,10 @@ namespace pogl
 
     void Engine::update(float elapsed)
     {
-        static float total_time = 0;
-        total_time += elapsed;
+        total_time_ += elapsed;
 
-        float dx = cos(total_time * 0.5);
-        float dz = sin(total_time * 0.5);
+        float dx = cos(total_time_ * 0.5);
+        float dz = sin(total_time_ * 0.5);
         auto pos = current_scene_->get_camera().get_position();
         current_scene_->get_camera().set_position(
                 glm::vec3(15 * dx, pos.y, 15 * dz)
@@ -84,7 +84,8 @@ namespace pogl
             auto render_context = RenderContext
             {
                 reflecting.mirror_camera(dir),
-                &target
+                &target,
+                total_time_
             };
 
             for (const auto& object : *current_scene_)
@@ -97,10 +98,13 @@ namespace pogl
 
             index++;
         }
+
+        glViewport(0, 0, 1000, 1000);
     }
 
     void Engine::render()
     {
+        prerender_reflection();
         if (current_scene_ == nullptr)
             return;
 
@@ -111,7 +115,8 @@ namespace pogl
         auto render_context = RenderContext
         {
             current_scene_->get_camera(),
-            nullptr
+            nullptr,
+            total_time_
         };
 
         auto reflecting = current_scene_->get_reflecting().get_object();
@@ -128,7 +133,7 @@ namespace pogl
 
     void Engine::run()
     {
-        prerender_reflection();
+        //prerender_reflection();
         glutMainLoop();
     }
 } // namespace pogl

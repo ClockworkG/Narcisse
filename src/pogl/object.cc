@@ -100,6 +100,9 @@ namespace pogl
             const auto tex_loc = glGetUniformLocation(*shader_, "texture_sampler");
             glUniform1i(tex_loc, tex.get_unit() - GL_TEXTURE0);
 
+            const auto time_loc = glGetUniformLocation(*shader_, "time");
+            glUniform1f(time_loc, context.time);
+
             glBindVertexArray(vao_id_);
             glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
 
@@ -107,7 +110,7 @@ namespace pogl
         }
     }
 
-    void Object::render(const RenderContext& context, const CubeMap& cube_map) const
+    void Object::render(const RenderContext& context, const CubeMap&) const
     {
         if (shader_ != nullptr)
         {
