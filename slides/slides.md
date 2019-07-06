@@ -32,7 +32,7 @@ output:
 * OBJ models (`tinyobjloader`)
 * Deserialization using `boost::hana`
 * Matrix and vectors with `glm`
-* Check it out at [`gitlab.com/robin.le-bihan/narcisse`](https://www.gitlab.com/robin.le-bihan/narcisse)
+* Check it out at [`gitlab.com/robin.le_bihan/narcisse`](https://www.gitlab.com/robin.le_bihan/narcisse)
 
 # Implementation
 
