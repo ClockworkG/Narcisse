@@ -22,8 +22,8 @@
                 "mesh": "cube.obj",
                 "position": [7, -1, 0],
                 "rotation": [0, 0, 0],
-                "scale": [2, 1, 2],
-                "texture": "crate.tga"
+                "scale": [1, 1, 1],
+                "texture": "companion.tga"
             },
             {
                 "shader": "default",
@@ -31,7 +31,7 @@
                 "position": [-4, -1, 0],
                 "rotation": [0, 0, 0],
                 "scale": [1, 1, 1],
-                "texture": "wood.tga"
+                "texture": "crate.tga"
             },
             {
                 "shader": "default",
