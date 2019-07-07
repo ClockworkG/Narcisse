@@ -87,20 +87,11 @@ namespace pogl
                 model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
                 model = glm::scale(model, scale_);
 
-                const auto model_loc = glGetUniformLocation(sh, "model");
-                glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
-
-                const auto view_loc = glGetUniformLocation(sh, "view");
-                glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
-
-                const auto proj_loc = glGetUniformLocation(sh, "projection");
-                glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
-
-                const auto tex_loc = glGetUniformLocation(sh, "texture_sampler");
-                glUniform1i(tex_loc, tex.get_unit() - GL_TEXTURE0);
-
-                const auto time_loc = glGetUniformLocation(sh, "time");
-                glUniform1f(time_loc, context.time);
+                sh.uniform("model") = model;
+                sh.uniform("view") = cam.get_view();
+                sh.uniform("projection") = cam.get_projection();
+                sh.uniform("texture_sampler") = static_cast<int>(tex.get_unit() - GL_TEXTURE0);
+                sh.uniform("time") = context.time;
 
                 glBindVertexArray(vao_id_);
                 glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
@@ -130,22 +121,11 @@ namespace pogl
                 model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
                 model = glm::scale(model, scale_);
 
-                const auto model_loc = glGetUniformLocation(sh, "model");
-                glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
-
-                const auto view_loc = glGetUniformLocation(sh, "view");
-                glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
-
-                const auto proj_loc = glGetUniformLocation(sh, "projection");
-                glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
-
-                const auto cam_loc = glGetUniformLocation(sh, "cameraPos");
-                glUniform3f(cam_loc, cam.get_position().x,
-                            cam.get_position().y,
-                            cam.get_position().z);
-
-                const auto refl = glGetUniformLocation(sh, "reflectionMap");
-                glUniform1i(refl, GL_TEXTURE6 - GL_TEXTURE0);
+                sh.uniform("model") = model;
+                sh.uniform("view") = cam.get_view();
+                sh.uniform("projection") = cam.get_projection();
+                sh.uniform("reflectionMap") = static_cast<int>(GL_TEXTURE6 - GL_TEXTURE0);
+                sh.uniform("cameraPos") = cam.get_position();
 
                 glBindVertexArray(vao_id_);
                 glDrawArrays(GL_TRIANGLES, 0, vertices_.size());

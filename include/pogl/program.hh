@@ -9,6 +9,7 @@
 
 #include <pogl/shader.hh>
 #include <pogl/vertex-attrib-pointer.hh>
+#include <pogl/uniform-handle.hh>
 
 namespace pogl
 {
@@ -37,6 +38,7 @@ namespace pogl
         operator GLuint() const noexcept;
 
         VertexAttribPointer attrib(const std::string& name) const;
+        UniformHandle uniform(const std::string& name) const;
 
     private:
         GLuint program_id_ = INVALID_PROGRAM;

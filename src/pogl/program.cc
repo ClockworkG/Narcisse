@@ -76,6 +76,11 @@ namespace pogl
         return VertexAttribPointer(*this, name.c_str());
     }
 
+    UniformHandle Program::uniform(const std::string& name) const
+    {
+        return UniformHandle(*this, name.c_str());
+    }
+
     std::ostream& operator<<(std::ostream& os, const Program& program)
     {
         int program_len = 0;

@@ -42,6 +42,7 @@ target_sources(pogl
                        ${SOURCE_DIR}/pogl/texture.cc
                        ${SOURCE_DIR}/pogl/cube-map.cc
                        ${SOURCE_DIR}/pogl/vertex-attrib-pointer.cc
+                       ${SOURCE_DIR}/pogl/uniform-handle.cc
                        ${SOURCE_DIR}/pogl/camera.cc
                        ${SOURCE_DIR}/pogl/object.cc
                        ${SOURCE_DIR}/pogl/detail/shader-source.cc
