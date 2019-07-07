@@ -72,41 +72,41 @@ namespace pogl
     {
         if (shader_ != nullptr)
         {
-            const auto& cam = context.camera;
+            auto render = with_shader(*shader_, [&, this](const auto& sh)
+            {
+                const auto& cam = context.camera;
+                if (context.target)
+                    glBindFramebuffer(GL_FRAMEBUFFER, *context.target);
+                else
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-            glUseProgram(*shader_);
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, position_);
+                model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
+                model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
+                model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
+                model = glm::scale(model, scale_);
 
-            if (context.target)
-                glBindFramebuffer(GL_FRAMEBUFFER, *context.target);
-            else
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                const auto model_loc = glGetUniformLocation(sh, "model");
+                glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, position_);
-            model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
-            model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
-            model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
-            model = glm::scale(model, scale_);
+                const auto view_loc = glGetUniformLocation(sh, "view");
+                glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
 
-            const auto model_loc = glGetUniformLocation(*shader_, "model");
-            glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
+                const auto proj_loc = glGetUniformLocation(sh, "projection");
+                glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
 
-            const auto view_loc = glGetUniformLocation(*shader_, "view");
-            glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
+                const auto tex_loc = glGetUniformLocation(sh, "texture_sampler");
+                glUniform1i(tex_loc, tex.get_unit() - GL_TEXTURE0);
 
-            const auto proj_loc = glGetUniformLocation(*shader_, "projection");
-            glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
+                const auto time_loc = glGetUniformLocation(sh, "time");
+                glUniform1f(time_loc, context.time);
 
-            const auto tex_loc = glGetUniformLocation(*shader_, "texture_sampler");
-            glUniform1i(tex_loc, tex.get_unit() - GL_TEXTURE0);
+                glBindVertexArray(vao_id_);
+                glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
+            });
 
-            const auto time_loc = glGetUniformLocation(*shader_, "time");
-            glUniform1f(time_loc, context.time);
-
-            glBindVertexArray(vao_id_);
-            glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
-
-            glUseProgram(0);
+            render();
         }
     }
 
@@ -114,43 +114,44 @@ namespace pogl
     {
         if (shader_ != nullptr)
         {
-            const auto& cam = context.camera;
+            auto render = with_shader(*shader_, [&, this](const auto& sh)
+            {
+                const auto& cam = context.camera;
 
-            glUseProgram(*shader_);
+                if (context.target)
+                    glBindFramebuffer(GL_FRAMEBUFFER, *context.target);
+                else
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-            if (context.target)
-                glBindFramebuffer(GL_FRAMEBUFFER, *context.target);
-            else
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, position_);
+                model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
+                model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
+                model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
+                model = glm::scale(model, scale_);
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, position_);
-            model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
-            model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
-            model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
-            model = glm::scale(model, scale_);
+                const auto model_loc = glGetUniformLocation(sh, "model");
+                glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
 
-            const auto model_loc = glGetUniformLocation(*shader_, "model");
-            glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));
+                const auto view_loc = glGetUniformLocation(sh, "view");
+                glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
 
-            const auto view_loc = glGetUniformLocation(*shader_, "view");
-            glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(cam.get_view()));
+                const auto proj_loc = glGetUniformLocation(sh, "projection");
+                glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
 
-            const auto proj_loc = glGetUniformLocation(*shader_, "projection");
-            glUniformMatrix4fv(proj_loc, 1, GL_FALSE, glm::value_ptr(cam.get_projection()));
+                const auto cam_loc = glGetUniformLocation(sh, "cameraPos");
+                glUniform3f(cam_loc, cam.get_position().x,
+                            cam.get_position().y,
+                            cam.get_position().z);
 
-            const auto cam_loc = glGetUniformLocation(*shader_, "cameraPos");
-            glUniform3f(cam_loc, cam.get_position().x,
-                        cam.get_position().y,
-                        cam.get_position().z);
+                const auto refl = glGetUniformLocation(sh, "reflectionMap");
+                glUniform1i(refl, GL_TEXTURE6 - GL_TEXTURE0);
 
-            const auto refl = glGetUniformLocation(*shader_, "reflectionMap");
-            glUniform1i(refl, GL_TEXTURE6 - GL_TEXTURE0);
+                glBindVertexArray(vao_id_);
+                glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
+            });
 
-            glBindVertexArray(vao_id_);
-            glDrawArrays(GL_TRIANGLES, 0, vertices_.size());
-
-            glUseProgram(0);
+            render();
         }
     }
 } // namespace pogl

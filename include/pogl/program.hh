@@ -52,6 +52,10 @@ namespace pogl
 
     std::ostream& operator<<(std::ostream& os, const Program& program);
     std::istream& operator>>(std::istream& is, Program& program);
+
+    using display_fun_t = std::function<void(const Program&)>;
+
+    auto with_shader(const Program& shader, display_fun_t&& fun);
 } // namespace pogl
 
 #include <pogl/program.hxx>

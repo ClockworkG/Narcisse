@@ -17,4 +17,14 @@ namespace pogl
     {
         return this->attach(shader);
     }
+
+    inline auto with_shader(const Program& shader, display_fun_t&& fun)
+    {
+        return [&shader, fun = std::move(fun)]()
+        {
+            glUseProgram(shader);
+            fun(shader);
+            glUseProgram(INVALID_PROGRAM);
+        };
+    }
 } // namespace pogl
