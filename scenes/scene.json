@@ -46,7 +46,7 @@
                 "mesh": "plane.obj",
                 "position": [0, -2, 0],
                 "rotation": [0, 0, 0],
-                "scale": [10, 1, 10],
+                "scale": [16, 1, 16],
                 "texture": "board.tga"
             }
         ],

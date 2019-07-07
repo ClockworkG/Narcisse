@@ -68,6 +68,27 @@ namespace pogl
         render(context, texture_);
     }
 
+    struct Transform
+    {
+        glm::vec3 position;
+        glm::vec3 rotation;
+        glm::vec3 scale;
+    };
+
+    static inline glm::mat4 model_matrix(const Transform& trans)
+    {
+        const auto& [position, rotation, scale] = trans;
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, position);
+        model = glm::rotate(model, rotation.x, glm::vec3(1, 0, 0));
+        model = glm::rotate(model, rotation.y, glm::vec3(0, 1, 0));
+        model = glm::rotate(model, rotation.z, glm::vec3(0, 0, 1));
+        model = glm::scale(model, scale);
+
+        return model;
+    }
+
     void Object::render(const RenderContext& context, const Texture& tex) const
     {
         if (shader_ != nullptr)
@@ -80,12 +101,9 @@ namespace pogl
                 else
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-                glm::mat4 model = glm::mat4(1.0f);
-                model = glm::translate(model, position_);
-                model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
-                model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
-                model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
-                model = glm::scale(model, scale_);
+                glm::mat4 model = model_matrix(
+                    Transform{position_, rotation_, scale_}
+                );
 
                 sh.uniform("model") = model;
                 sh.uniform("view") = cam.get_view();
@@ -114,12 +132,9 @@ namespace pogl
                 else
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-                glm::mat4 model = glm::mat4(1.0f);
-                model = glm::translate(model, position_);
-                model = glm::rotate(model, rotation_.x, glm::vec3(1, 0, 0));
-                model = glm::rotate(model, rotation_.y, glm::vec3(0, 1, 0));
-                model = glm::rotate(model, rotation_.z, glm::vec3(0, 0, 1));
-                model = glm::scale(model, scale_);
+                glm::mat4 model = model_matrix(
+                    Transform{position_, rotation_, scale_}
+                );
 
                 sh.uniform("model") = model;
                 sh.uniform("view") = cam.get_view();
